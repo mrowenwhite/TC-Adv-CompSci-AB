@@ -6,26 +6,43 @@ import java.io.*;
 public class Prog335h {
 
     public static int diceroll(int p, int q) {
-        boolean pEven = p%2==0;
-        boolean qEven = q%2==0;
-        return 1;
+        boolean P = p%2==0;
+        boolean Q = q%2==0;
+
+        if (P&&!Q) {
+            return (2*p)+q;
+        }
+        else if (!P&&Q) {
+            return p+(2*q);
+        }
+        else {
+            return (p!=q)? p+q : 3*p;
+        }
+
+
+
     }
 
     public static void main(String[] args) throws IOException {
-         Scanner input = new Scanner(new File("Prog127a.dat"));
+        System.out.println("P:\tQ:\tValue:");
+         Scanner input = new Scanner(new File("Langdats/Prog127a.dat"));
          while (input.hasNext()) {
              int p = input.nextInt();
              int q = input.nextInt();
+             int val = diceroll(p,q);
+             System.out.printf("%d\t%d\t%d\n", p, q, val);
+
+
          }
 
     }
 }
 /*
-P	Q	Rule (value of the roll and condition)
-	Even	Odd	2P + Q
-	Odd 	Even	P + 2Q
-	Even	Even	P + Q	When P not = Q
-			3P	when P = Q
-	odd	Odd	P + Q	when P not  =Q
-			3Q	when P = Q
+P:	Q:	Value:
+2	5	9
+4	4	12
+6	2	8
+1	3	4
+5	5	15
+1	2	5
  */

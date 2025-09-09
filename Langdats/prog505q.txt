@@ -1,0 +1,9 @@
+60
+40
+Jill Gimper    5 80 85 85 95 70    3   19 20 18
+Tierny Topper    6 80 95  85  95 70 60    4  18 19 20 18
+Cameron Cruiser      4 60 75 85 95     5  20 19 20 18 20
+Tierny Topper     5 55 80 95 70 60     6  15 18 19 20 20 18
+Kitty Castle  3 70 92 85  5 18 19 10 12 18
+Gracie GoneWithTheWind  4 60 80 85 90  5 18 12 18 17 20
+Violet Victory   7 100 80 70 60 80 70 85   2 18 19
