@@ -6,16 +6,26 @@ public class Household {
     private int members;
 
     public Household(int id, int income, int members) {
-        this.id       = id;
+        this.id      = id;
         this.income  = income;
         this.members = members;
     }
 
-    public int getId()      {return this.id;     }
-    public int getIncome()  {return this.income; }
-    public int getMembers() {return this.members;}
+    public int getId()      {
+        return this.id;
+    }
+    public int getIncome()  {
+        return this.income; }
+
+    public int getMembers() {
+        return this.members;
+    }
     public boolean isBelowPovertyLine() {
-        if
-        //p= $3750.00 + $750.00 * (m-2)
+        return (income < 3700+(750*(members-2)));
+    }
+
+    @Override
+    public String toString() {
+        return id + "\t" + income + "\t" + members;
     }
 }
