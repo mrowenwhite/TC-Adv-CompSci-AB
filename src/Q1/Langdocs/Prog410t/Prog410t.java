@@ -1,4 +1,4 @@
-package Langdocs.Prog410t;
+package Q1.Langdocs.Prog410t;
 
 import java.util.*;
 import java.io.*;

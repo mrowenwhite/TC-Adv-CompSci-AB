@@ -1,4 +1,4 @@
-package Langdocs;
+package Q1.Langdocs;
 
 public class FavClubOrSport {
     public static void main(String[] args) {
