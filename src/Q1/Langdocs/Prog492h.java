@@ -10,6 +10,7 @@ public class Prog492h {
         String[][] mat = new String[30][30];
         String[][] ans = new String[30][30];
 
+        //populate
         int r = 0;
         while (file.hasNextLine()) {
             String line = file.nextLine();
@@ -17,36 +18,24 @@ public class Prog492h {
             mat[r] = chars;
             r++;
         }
+        //checkNeighborsAnd
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[i].length; j++) {
+                int neighborCount = LiveNeighborCount(i, j, mat);
 
-        int count = 0;
-        /
-        for (r=0;r< mat.length;r++) {
-            for (int c=0;c<mat[r].length;c++) {
-                //1
-                if (r>=1) {
-                    String ch =  mat[r-1][c];
-                    if (ch.equals("*")) {
-                        count++;
-                    }
-                }
-                //2
-                if (r>=1&&c<=mat[r].length-2)   {
-                    String ch =  mat[r-1][c+1];
-                    if (ch.equals("*")) {
-                        count++;
-                }
             }
         }
-
-
-
-
     }
 
 
-}
-    public static boolean IsAvailable(int r, int c, int[][] matrix) {
-        //TODO
+    public static int LiveNeighborCount(int row, int col, String[][] mat) {
+        int cnt = 0;
+        for (int r = row - 1; r <= row + 1; r++)
+            for (int c = col - 1; c <= col + 1; c++)
+                if ((!(row == r && col == c)) && ((c >= 0 && r >= 0) && (c <= (col + 1) && r <= (row + 1))))
+                    cnt++;
+        return cnt;
     }
 }
+
 
