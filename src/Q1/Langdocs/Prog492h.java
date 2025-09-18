@@ -18,7 +18,6 @@ public class Prog492h {
             mat[r] = chars;
             r++;
         }
-        //checkNeighborsAnd
         for (int i = 0; i < mat.length; i++) {
             for (int j = 0; j < mat[i].length; j++) {
                 int neighborCount = LiveNeighborCount(i, j, mat);
