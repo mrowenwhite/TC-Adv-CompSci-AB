@@ -2,14 +2,13 @@ package Q1.Langdocs;
 
 import java.util.*;
 import java.io.*;
-import java.util.stream.IntStream;
 
 public class Prog470t {
     public static void main(String[] args) throws IOException {
         Scanner file1 = new Scanner(new File("Langdats/prg470t1.dat"));
         Scanner file2 = new Scanner(new File("Langdats/prg470t2.dat"));
-        int[][] mat    = new int[4][4];
-        int[][] mat2   = new int[4][4];
+        int[][] mat   = new int[4][4];
+        int[][] mat2  = new int[4][4];
 
         while (file1.hasNextLine()) {
             for (int i = 0; i < 4; i++)
@@ -36,6 +35,7 @@ public class Prog470t {
             if (getSum(new int[] {mat[0][i]})!=sum)
                 return false;
         }
+
     }
 
     public int getSum(int[] arr) {return Arrays.stream(arr).sum();}
