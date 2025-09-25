@@ -7,7 +7,7 @@ public class Prog285bHelper {
         myroot = null;
     }
 
-    public void add(Node spot) {
+    public void addFront(Node spot) {
         if (myroot == null) {
             myroot = spot;
         }
@@ -17,10 +17,25 @@ public class Prog285bHelper {
         }
     }
 
+    public void addBack(Node spot) {
+        if (myroot == null) {
+            myroot = spot;
+        }
+        else {
+            Node temp = myroot;
+            while (temp.myNext!=null) {
+                temp = temp.myNext;
+            }
+            temp.myNext = spot;
+        }
+    }
+
+
+
     public void print() {
         Node temp =  myroot;
         while (temp != null) {
-            System.out.println(temp);
+            System.out.println(temp.getCom());
             temp = temp.myNext;
         }
     }

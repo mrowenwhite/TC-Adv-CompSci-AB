@@ -27,7 +27,7 @@ public class Com {
 
     @Override
     public String toString() {
-        return myId + "\t" + myCode + "\t" + myCom + "\t" + mySales + myCom;
+        return myId + "\t" + myCode + "\t" + myCom + "\t" + mySales +  "\t" + myCom;
     }
 
 

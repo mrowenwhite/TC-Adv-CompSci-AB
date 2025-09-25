@@ -1,5 +1,5 @@
 package Q1.Langdocs;
-
+/*
 import java.util.*;
 import java.io.*;
 
@@ -40,3 +40,4 @@ public class Prog470t {
 
     public int getSum(int[] arr) {return Arrays.stream(arr).sum();}
 }
+*/
