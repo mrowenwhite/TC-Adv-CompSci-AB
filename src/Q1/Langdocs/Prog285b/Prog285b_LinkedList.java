@@ -13,6 +13,7 @@ public class Prog285b_LinkedList {
             list.addBack(new Node(new Com(input.nextInt(),input.nextInt(),input.nextDouble())));
         }
 
+        list.calc();
         list.print();
 
     }

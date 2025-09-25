@@ -30,10 +30,27 @@ public class Prog285bHelper {
         }
     }
 
+    public void calc() {
+        Node temp = myroot;
+        while (temp.myNext!=null) {
+            temp.getCom().calc();
+        }
+        temp = temp.myNext;
+    }
+
+    public void deleteZeros() {
+
+        while ((myroot!=null)&&myroot.getCom().getcommision()==0) {
+            myroot = myroot.myNext;
+        }
+    }
+    }
+
+
 
 
     public void print() {
-        Node temp =  myroot;
+        Node temp = myroot;
         while (temp != null) {
             System.out.println(temp.getCom());
             temp = temp.myNext;

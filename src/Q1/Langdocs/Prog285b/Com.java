@@ -34,4 +34,5 @@ public class Com {
     public int getId() {return myId;}
     public int getCode() {return myCode;}
     public double getSales() {return mySales;}
+    public double getcommision() {return myCom;}
 }
