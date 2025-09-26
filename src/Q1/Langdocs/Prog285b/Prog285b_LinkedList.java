@@ -15,6 +15,9 @@ public class Prog285b_LinkedList {
 
         list.calc();
         list.print();
+        System.out.println("\n\n");
+        list.deleteZeros();
+        list.print();
 
     }
 }
