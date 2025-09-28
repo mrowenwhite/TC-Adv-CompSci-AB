@@ -44,10 +44,6 @@ public class Prog285bHelper {
             myroot = myroot.myNext;
         }
     }
-    }
-
-
-
 
     public void print() {
         Node temp = myroot;
