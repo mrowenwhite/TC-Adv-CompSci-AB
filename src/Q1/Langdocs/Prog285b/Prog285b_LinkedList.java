@@ -2,6 +2,7 @@ package Q1.Langdocs.Prog285b;
 
 import java.util.*;
 import java.io.*;
+import java.util.Iterator;
 
 public class Prog285b_LinkedList {
     public static void main(String[] args) throws IOException {

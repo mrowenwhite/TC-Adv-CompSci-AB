@@ -1,5 +1,8 @@
 package Q1.Langdocs.Prog285b;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Prog285bHelper {
     private Node myroot;
 
@@ -51,5 +54,15 @@ public class Prog285bHelper {
             System.out.println(temp.getCom());
             temp = temp.myNext;
         }
+    }
+
+    public Iterator<Com> iterator() {
+        ArrayList<Com> stuff = new ArrayList<Com>();
+        Node temp = myroot;
+        while (temp != null) {
+            stuff.add(temp.getCom());
+            temp = temp.myNext;
+        }
+        return stuff.iterator();
     }
 }
