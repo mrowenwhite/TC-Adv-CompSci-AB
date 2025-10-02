@@ -76,7 +76,7 @@ public class Prog470t {
         if (tempsum != sum) return false;
         return true;
     }
-
+    //commit message
 
     public static int getSum(int[] arr) {
         int sum = 0;
