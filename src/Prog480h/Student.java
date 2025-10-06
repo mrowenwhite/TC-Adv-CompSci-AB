@@ -19,7 +19,7 @@ public class Student {
     }
     public char getGrade() {
         int p = 0;
-        for (int lcv = 1; lcv <= scores.length; lcv++) {
+        for (int lcv = 1; lcv < scores.length; lcv++) {
             if (scores[lcv] == myKey[lcv]) {
                 p+=10;
             }
@@ -30,7 +30,7 @@ public class Student {
     }
     @Override
     public String toString() {
-        return myId + "\t" +  Arrays.toString(scores) + "\t" + grade;
+        return myId + "\t" +  Arrays.toString(scores) + "\t" + getGrade();
     }
 
 }
