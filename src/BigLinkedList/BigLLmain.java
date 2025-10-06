@@ -8,11 +8,10 @@ public class BigLLmain {
         for (int i = 0; i < 200; i++)
             myRandNums[i] = (int) (Math.random() * 100);
 
-        HomeMadeLinkedList<Node<Integer>> LL = new HomeMadeLinkedList<>();
-        for (int i = 0; i < myRandNums.length; i++) LL.addFront(new Node(myRandNums[i]));
-        // while (LL.myNext!=null) {
-        //System.out.println(LL.myNext);
-        // LL.myNext=LL.myNext;
+        HomeMadeLinkedList<Integer> LL = new HomeMadeLinkedList<>();
+        for (int rn : myRandNums) LL.addFront(new Node<Integer>(rn));
+        LL.addLast(new Node<Integer>(55));
+        LL.printList();
 
     }
 }

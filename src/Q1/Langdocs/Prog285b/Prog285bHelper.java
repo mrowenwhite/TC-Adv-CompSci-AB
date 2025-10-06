@@ -11,9 +11,8 @@ public class Prog285bHelper {
     }
 
     public void addFront(Node spot) {
-        if (myroot == null) {
+        if (myroot == null)
             myroot = spot;
-        }
         else {
             spot.myNext = myroot;
             myroot = spot;
@@ -21,31 +20,26 @@ public class Prog285bHelper {
     }
 
     public void addBack(Node spot) {
-        if (myroot == null) {
+        if (myroot == null)
             myroot = spot;
-        }
         else {
             Node temp = myroot;
-            while (temp.myNext!=null) {
+            while (temp.myNext!=null)
                 temp = temp.myNext;
-            }
             temp.myNext = spot;
         }
     }
 
     public void calc() {
         Node temp = myroot;
-        while (temp.myNext!=null) {
+        while (temp.myNext!=null)
             temp.getCom().calc();
-        }
         temp = temp.myNext;
     }
 
     public void deleteZeros() {
-
-        while ((myroot!=null)&&myroot.getCom().getcommision()==0) {
+        while ((myroot!=null)&&myroot.getCom().getcommision()==0)
             myroot = myroot.myNext;
-        }
     }
 
     public void print() {
@@ -54,15 +48,5 @@ public class Prog285bHelper {
             System.out.println(temp.getCom());
             temp = temp.myNext;
         }
-    }
-
-    public Iterator<Com> iterator() {
-        ArrayList<Com> stuff = new ArrayList<Com>();
-        Node temp = myroot;
-        while (temp != null) {
-            stuff.add(temp.getCom());
-            temp = temp.myNext;
-        }
-        return stuff.iterator();
     }
 }

@@ -2,7 +2,6 @@ package Q1.Langdocs.Prog285b;
 
 import java.util.*;
 import java.io.*;
-import java.util.Iterator;
 
 public class Prog285b_LinkedList {
     public static void main(String[] args) throws IOException {
@@ -21,13 +20,8 @@ public class Prog285b_LinkedList {
         list.deleteZeros();
         list.print();
 
-        Iterator<Com> coms = list.iterator();
         System.out.println("\n\n");
 
-        while (coms.hasNext()) {
-            Com cool = coms.next();
-            System.out.println(cool);
-        }
 
     }
 }
