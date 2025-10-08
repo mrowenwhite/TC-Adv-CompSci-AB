@@ -9,7 +9,15 @@ public class HomeMadeLinkedList<T> {
 
     //Add methods from bigLL doc
     public boolean addFront(Node<T> node) {
-        //TODO
+        Node<T> temp = myRoot;
+        while (temp.myNext!=null) {
+            if (temp.myNext.myNext==null) {
+                temp.myNext.myNext=node;
+                break;
+            }
+            temp=temp.myNext;
+        }
+        return temp.myNext==node;
     }
     public void printList() {
         Node temp = myRoot;
@@ -18,9 +26,18 @@ public class HomeMadeLinkedList<T> {
             temp = temp.myNext;
         }
     }
-    public void addLast(Node<T> node) {
-       Node<T> temp = myRoot;`      ``                                                                                              `                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       `
 
+    public void remove(int n) {
+
+    }
+
+    public void clear() {
+        myRoot = null;
+    }
+
+    public void addLast(Node<T> node) {
+       Node<T> temp = myRoot;
+       while (temp.myNext!=null) {}
     }
 
 
