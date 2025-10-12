@@ -1,4 +1,4 @@
-package Generics_Test;
+package Q1.Generics_Test;
 
 public class Cat extends Animal {
 

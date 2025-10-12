@@ -1,4 +1,4 @@
-package Q1.Langdocs;
+package Q1;
 import java.util.Scanner;
 
 public class Prog335e {

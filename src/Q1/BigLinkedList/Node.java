@@ -1,4 +1,4 @@
-package BigLinkedList;
+package Q1.BigLinkedList;
 
 public class Node <T>{
     private T myData;

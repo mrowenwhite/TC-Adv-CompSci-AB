@@ -1,4 +1,4 @@
-package BigLinkedList;
+package Q1.BigLinkedList;
 
 public class HomeMadeLinkedList<T> {
     private Node<T> myRoot;

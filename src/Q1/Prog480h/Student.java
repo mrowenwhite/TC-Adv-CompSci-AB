@@ -1,4 +1,4 @@
-package Prog480h;
+package Q1.Prog480h;
 
 import java.util.Arrays;
 

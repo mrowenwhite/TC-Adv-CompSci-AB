@@ -1,4 +1,4 @@
-package BigLinkedList;
+package Q1.BigLinkedList;
 
 import java.io.*;
 

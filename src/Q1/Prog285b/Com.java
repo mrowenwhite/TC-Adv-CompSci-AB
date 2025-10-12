@@ -1,4 +1,4 @@
-package Q1.Langdocs.Prog285b;
+package Q1.Prog285b;
 
 public class Com {
     private int myId;

@@ -1,7 +1,4 @@
-package Q1.Langdocs.Prog285b;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+package Q1.Prog285b;
 
 public class Prog285bHelper {
     private Node myroot;

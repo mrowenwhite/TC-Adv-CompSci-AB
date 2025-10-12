@@ -1,4 +1,4 @@
-package Q1.Langdocs;
+package Q1;
 
 public class Schedule {
     public static void main(String[] args) {
