@@ -8,7 +8,7 @@ public class LinkedList<T> {
     }
 
     public void add(T data, int pos) {
-
+        Node<T> temp = this.head;
     }
 
 }

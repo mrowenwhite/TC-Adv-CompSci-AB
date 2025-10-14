@@ -1,8 +1,10 @@
 package DataStructures;
 
 public class Node<T> {
-    private Node<T> next;
+    public Node<T> next;
+    public Node<T> prev;
     private T data;
+
 
     public Node(T data) {
         this.data = data;
