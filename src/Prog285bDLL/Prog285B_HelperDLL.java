@@ -76,13 +76,16 @@ public class Prog285B_HelperDLL {
     }
 
     public void deleteZeros() {
-        if (myroot == null) {
-            return;
-        }
-        while (myroot.getCom()==0) {
+        while (myroot != null && myroot.getCom() == 0)
             myroot = myroot.next;
+
+        DoubleNode current = myroot;
+        while (current != null && current.next != null) {
+            if (current.next.getCom() == 0)
+                current.next = current.next.next;
+            else
+                current = current.next;
         }
-        //TODO
     }
 
     public void calcAll() {

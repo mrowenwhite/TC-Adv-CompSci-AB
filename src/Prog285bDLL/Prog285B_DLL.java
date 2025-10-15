@@ -16,6 +16,7 @@ public class Prog285B_DLL {
             dll.addFront(new Prog285B_HelperDLL.DoubleNode(id, code, sales));
         }
         dll.calcAll();
+        dll.deleteZeros();
         dll.print();
     }
 }
