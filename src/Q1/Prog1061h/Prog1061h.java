@@ -10,8 +10,12 @@ class Prog1061h {
         Scanner file = new Scanner(new File("Langdats/prg1061h.txt"));
 
         int cnt = 0;
-        while (file.hasNextLine()) {
-            list.addAlphabetically(file.nextLine());
+        while (file.hasNext()) {
+            String wow = file.nextLine();
+            list.addAlphabetically(wow);
+            System.out.println(wow);
+            list.print();
+            System.out.println("\n");
         }
         list.print();
     }
