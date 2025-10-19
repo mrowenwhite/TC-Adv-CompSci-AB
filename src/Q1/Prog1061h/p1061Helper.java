@@ -22,55 +22,30 @@ public class p1061Helper {
         head = null;
     }
 
-    public void addAlphabetically(String data) {
-
-        int cnt = 0;
+    public void addAlphabetically(String s) { //WHY!?
+        Node newNode = new Node(s);
         if (head == null) {
-            head = new Node(data);
+            head = newNode;
         }
         else {
-            Node prev = head;
             Node temp = head;
-            boolean flag = false;
-
-            Node newguy = new Node(data);
-            if (newguy.getData().compareTo(head.getData()) <= 0) {
-                System.out.println("here " + newguy.getData());
-                print();
-                newguy.next = head;
-                head = newguy;
-                System.out.println("here ");
-                print();
-            } else {
-
-
-                while (temp != null) {
-
-                    System.out.println(cnt);
-
-                    if (temp.getData().compareTo(data) > 0) {
-                        Node newNode = new Node(data);
+            while (temp.next != null) {
+                if (s.compareTo(head.data) < 0) {
+                    newNode.next = head;
+                    head = newNode;
+                }
+                else {
+                    if (s.compareTo(temp.data) < 0) {
                         newNode.next = temp.next;
-                        prev.next = newNode;
-                        flag = true;
-                        break;
-                    }
-                    cnt++;
-                    prev = temp;
-                    temp = temp.next;
+                        temp.next = newNode;
 
-                }
-                if (!flag) {
-                    //Add to end;
-                    Node temp2 = head;
-                    while (temp2.next != null) {
-                        temp2 = temp2.next;
                     }
-                    temp2.next = new Node(data);
                 }
+                temp = temp.next;
             }
         }
     }
+
 
     public void print() {
         System.out.print(Arrays.toString(this.toArray()));
