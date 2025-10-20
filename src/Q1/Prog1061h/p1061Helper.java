@@ -22,33 +22,46 @@ public class p1061Helper {
         head = null;
     }
 
-    public void addAlphabetically(String s) { //WHY!?
+    public void addAlphabetically(String s) {
         Node newNode = new Node(s);
-        if (head == null) {
-            head = newNode;
+        if (this.head == null) {
+            this.head = newNode;
         }
         else {
             Node temp = head;
-            while (temp.next != null) {
-                if (s.compareTo(head.data) < 0) {
-                    newNode.next = head;
-                    head = newNode;
-                }
-                else {
-                    if (s.compareTo(temp.data) < 0) {
+            if (s.compareTo(temp.getData()) < 0) {
+                newNode.next = temp;
+                head = newNode;
+            }
+            else {
+                boolean flag = false;
+                Node prev = temp;
+
+                while (temp != null) {
+                    if (newNode.getData().compareTo(temp.getData()) < 0) {
+                        flag = true;
                         newNode.next = temp.next;
                         temp.next = newNode;
-
+                        break;
                     }
+                    prev = temp;
+                    temp = temp.next;
                 }
-                temp = temp.next;
+                if (!flag) {
+                    temp.next = newNode;
+                }
             }
         }
     }
 
 
     public void print() {
-        System.out.print(Arrays.toString(this.toArray()));
+        Node temp = this.head;
+        while (temp != null) {
+            System.out.print(temp.getData() + ", ");
+            temp = temp.next;
+        }
+        System.out.println("\n");
     }
 
     public int getSize() {
@@ -61,16 +74,7 @@ public class p1061Helper {
         return size;
     }
 
-    public String[] toArray() {
-        String[] arr = new String[this.getSize()];
-        Node temp = head;
-        int i = 0;
-        while (temp != null) {
-            arr[i] = temp.getData();
-            temp = temp.next;
-        }
-        return arr;
-    }
+
 
 
 }
