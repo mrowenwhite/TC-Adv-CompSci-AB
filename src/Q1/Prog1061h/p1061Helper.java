@@ -1,19 +1,15 @@
 package Q1.Prog1061h;
 
-import java.util.Arrays;
-
 public class p1061Helper {
     private Node head;
 
-    public class Node {
+    public static class Node {
         public Node next;
-        public Node prev;
         private String data;
 
         public Node(String data) {
             this.data = data;
             this.next = null;
-            this.prev = null;
         }
 
         public String getData() {
@@ -27,21 +23,19 @@ public class p1061Helper {
 
     public void addAlphabetically(String s) {
         Node newNode = new Node(s);
-        if (this.head == null) {
+        if (this.head == null)
             this.head = newNode;
-        }
         else {
             Node temp = head;
-            if (s.compareTo(temp.getData()) < 0) {
+            if (newNode.getData().compareTo(temp.getData()) < 0) {
                 newNode.next = temp;
                 head = newNode;
             }
             else {
                 while (temp.next != null) {
-                    if (s.compareTo(temp.getData()) <= 0) {
+                    if (newNode.getData().compareTo(temp.next.getData()) <= 0) {
                         newNode.next = temp.next;
-                        newNode.prev = temp;
-                        temp.next = temp.next.next;
+                        temp.next = newNode;
                         break;
                     }
                     temp = temp.next;
@@ -53,24 +47,10 @@ public class p1061Helper {
 
     public void print() {
         Node temp = this.head;
-        while (temp != null) {
+        while (temp.next != null) {
             System.out.print(temp.getData() + ", ");
             temp = temp.next;
         }
-        System.out.println("\n");
+        System.out.println(temp.getData());
     }
-
-    public int getSize() {
-        int size = 0;
-        Node temp = head;
-        while (temp != null) {
-            size++;
-            temp = temp.next;
-        }
-        return size;
-    }
-
-
-
-
 }
