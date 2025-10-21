@@ -6,11 +6,14 @@ public class p1061Helper {
     private Node head;
 
     public class Node {
-        private Node next;
+        public Node next;
+        public Node prev;
         private String data;
 
         public Node(String data) {
             this.data = data;
+            this.next = null;
+            this.prev = null;
         }
 
         public String getData() {
@@ -34,21 +37,14 @@ public class p1061Helper {
                 head = newNode;
             }
             else {
-                boolean flag = false;
-                Node prev = temp;
-
-                while (temp != null) {
-                    if (newNode.getData().compareTo(temp.getData()) < 0) {
-                        flag = true;
+                while (temp.next != null) {
+                    if (s.compareTo(temp.getData()) <= 0) {
                         newNode.next = temp.next;
-                        temp.next = newNode;
+                        newNode.prev = temp;
+                        temp.next = temp.next.next;
                         break;
                     }
-                    prev = temp;
                     temp = temp.next;
-                }
-                if (!flag) {
-                    temp.next = newNode;
                 }
             }
         }
