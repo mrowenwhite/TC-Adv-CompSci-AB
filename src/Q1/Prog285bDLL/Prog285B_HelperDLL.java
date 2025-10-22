@@ -1,6 +1,4 @@
-package Prog285bDLL;
-
-import Q1.Prog285b.Node;
+package Q1.Prog285bDLL;
 
 public class Prog285B_HelperDLL {
     public static class DoubleNode {
