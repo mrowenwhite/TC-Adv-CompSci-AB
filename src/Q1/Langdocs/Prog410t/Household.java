@@ -1,4 +1,4 @@
-package Q1.Prog410t;
+package Q1.Langdocs.Prog410t;
 
 public class Household {
     private int id;

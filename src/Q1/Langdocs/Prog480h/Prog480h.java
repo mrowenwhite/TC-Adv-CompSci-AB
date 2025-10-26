@@ -1,4 +1,4 @@
-package Q1.Prog480h;
+package Q1.Langdocs.Prog480h;
 import java.util.*;
 import java.io.*;
 

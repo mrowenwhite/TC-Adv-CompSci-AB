@@ -1,4 +1,4 @@
-package Q1;
+package Q1.Langdocs;
 
 import java.util.*;
 import java.io.*;

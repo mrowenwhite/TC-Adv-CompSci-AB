@@ -1,4 +1,4 @@
-package Q1.Prog1061h;
+package Q1.Langdocs.Prog1061h;
 
 import java.io.*;
 import java.util.*;

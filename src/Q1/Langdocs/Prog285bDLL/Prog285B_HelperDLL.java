@@ -1,4 +1,4 @@
-package Q1.Prog285bDLL;
+package Q1.Langdocs.Prog285bDLL;
 
 public class Prog285B_HelperDLL {
     public static class DoubleNode {
