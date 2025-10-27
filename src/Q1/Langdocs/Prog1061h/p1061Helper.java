@@ -1,15 +1,14 @@
-package Q1.Prog1061h;
+package Q1.Langdocs.Prog1061h;
 
 public class p1061Helper {
     private Node head;
 
-    public static class Node {
-        public Node next;
+    public class Node {
+        private Node next;
         private String data;
 
         public Node(String data) {
             this.data = data;
-            this.next = null;
         }
 
         public String getData() {
@@ -23,22 +22,31 @@ public class p1061Helper {
 
     public void addAlphabetically(String s) {
         Node newNode = new Node(s);
-        if (this.head == null)
+        if (this.head == null) {
             this.head = newNode;
+        }
         else {
             Node temp = head;
-            if (newNode.getData().compareTo(temp.getData()) < 0) {
+            if (s.compareTo(temp.getData()) < 0) {
                 newNode.next = temp;
                 head = newNode;
             }
             else {
-                while (temp.next != null) {
-                    if (newNode.getData().compareTo(temp.next.getData()) <= 0) {
+                boolean flag = false;
+                Node prev = temp;
+
+                while (temp != null) {
+                    if (newNode.getData().compareTo(temp.getData()) < 0) {
+                        flag = true;
                         newNode.next = temp.next;
                         temp.next = newNode;
                         break;
                     }
+                    prev = temp;
                     temp = temp.next;
+                }
+                if (!flag) {
+                    temp.next = newNode;
                 }
             }
         }
@@ -47,10 +55,24 @@ public class p1061Helper {
 
     public void print() {
         Node temp = this.head;
-        while (temp.next != null) {
+        while (temp != null) {
             System.out.print(temp.getData() + ", ");
             temp = temp.next;
         }
-        System.out.println(temp.getData());
+        System.out.println("\n");
     }
+
+    public int getSize() {
+        int size = 0;
+        Node temp = head;
+        while (temp != null) {
+            size++;
+            temp = temp.next;
+        }
+        return size;
+    }
+
+
+
+
 }
