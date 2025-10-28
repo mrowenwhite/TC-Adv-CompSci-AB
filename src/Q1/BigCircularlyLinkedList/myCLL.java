@@ -1,34 +1,38 @@
 package Q1.BigCircularlyLinkedList;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
+import java.util.*;
 
-public class myCLL<T extends Number & Comparable<T>>implements Iterable<T>  {
+public class myCLL<T extends Number & Comparable<T>> implements Iterable<T> {
 
-    public class Node <T>{
+    private class Node<T> {
         private T data;
         public Node<T> myNext;
-
-        public Node(T data) {
-            this.data = data;
-        }
-
+        public Node(T data) { this.data = data; }
+        public T getData() { return data; }
         @Override
-        public String toString() {
-            return String.valueOf(this.data);
-        }
-        public T getData() {
-            return this.data;
-        }
+        public String toString() { return String.valueOf(data); }
     }
 
     private Node<T> myRoot;
 
+    private Node<T> getLastNode() {
+        if (myRoot == null) return null;
+        Node<T> c = myRoot;
+        while (c.myNext != myRoot) c = c.myNext;
+        return c;
+    }
+
     public boolean addfront(T n) {
         Node<T> t = new Node<>(n);
-        t.myNext = myRoot;
-        myRoot = t;
+        if (myRoot == null) {
+            myRoot = t;
+            t.myNext = myRoot;
+        } else {
+            Node<T> last = getLastNode();
+            t.myNext = myRoot;
+            myRoot = t;
+            last.myNext = myRoot;
+        }
         return true;
     }
 
@@ -36,29 +40,39 @@ public class myCLL<T extends Number & Comparable<T>>implements Iterable<T>  {
         Node<T> t = new Node<>(n);
         if (myRoot == null) {
             myRoot = t;
-            return true;
+            t.myNext = myRoot;
+        } else {
+            Node<T> last = getLastNode();
+            last.myNext = t;
+            t.myNext = myRoot;
         }
-        Node<T> c = myRoot;
-        while (c.myNext != myRoot) c = c.myNext;
-        c.myNext = t;
         return true;
     }
 
     public void printList() {
-        for (Node<T> c = myRoot; c != null; c = c.myNext)
+        if (myRoot == null) return;
+        Node<T> c = myRoot;
+        do {
             System.out.print(c.getData() + " ");
+            c = c.myNext;
+        } while (c != myRoot);
         System.out.println();
     }
 
     public int getCount() {
+        if (myRoot == null) return 0;
         int cnt = 0;
-        for (Node<T> c = myRoot; c != null; c = c.myNext) cnt++;
+        Node<T> c = myRoot;
+        do { cnt++; c = c.myNext; } while (c != myRoot);
         return cnt;
     }
 
     public boolean add(T num, int spot) {
-        if (spot < 0 || spot > getCount()) return false;
+        int count = getCount();
+        if (spot < 0 || spot > count) return false;
         if (spot == 0) return addfront(num);
+        if (spot == count) return addlast(num);
+
         Node<T> c = myRoot;
         for (int i = 0; i < spot - 1; i++) c = c.myNext;
         Node<T> n = new Node<>(num);
@@ -67,25 +81,25 @@ public class myCLL<T extends Number & Comparable<T>>implements Iterable<T>  {
         return true;
     }
 
-    public boolean isEmpty() {
-        return myRoot == null;
-    }
+    public boolean isEmpty() { return myRoot == null; }
 
     public boolean isThere(T n) {
-        for (Node<T> c = myRoot; c != null; c = c.myNext)
+        if (myRoot == null) return false;
+        Node<T> c = myRoot;
+        do {
             if (c.getData().equals(n)) return true;
+            c = c.myNext;
+        } while (c != myRoot);
         return false;
     }
 
-    public T getFirst() {
-        return myRoot == null ? null : myRoot.getData();
-    }
+    public boolean checkForNum(T n) { return isThere(n); }
+
+    public T getFirst() { return myRoot == null ? null : myRoot.getData(); }
 
     public T getLast() {
-        if (myRoot == null) return null;
-        Node<T> c = myRoot;
-        while (c.myNext != null) c = c.myNext;
-        return c.getData();
+        Node<T> last = getLastNode();
+        return last == null ? null : last.getData();
     }
 
     public T getSpot(int spot) {
@@ -95,98 +109,104 @@ public class myCLL<T extends Number & Comparable<T>>implements Iterable<T>  {
         return c.getData();
     }
 
+    public T getNum(int pos) { return getSpot(pos); }
+
     public void removeFirst() {
-        if (myRoot != null) myRoot = myRoot.myNext;
+        if (myRoot == null) return;
+        if (myRoot.myNext == myRoot) { myRoot = null; return; }
+        Node<T> last = getLastNode();
+        myRoot = myRoot.myNext;
+        last.myNext = myRoot;
     }
 
     public void removeLast() {
         if (myRoot == null) return;
-        if (myRoot.myNext == null) {
-            myRoot = null;
-            return;
-        }
+        if (myRoot.myNext == myRoot) { myRoot = null; return; }
         Node<T> c = myRoot;
-        while (c.myNext.myNext != null) c = c.myNext;
-        c.myNext = null;
+        while (c.myNext.myNext != myRoot) c = c.myNext;
+        c.myNext = myRoot;
     }
 
     public int countLess10() {
+        if (myRoot == null) return 0;
         int cnt = 0;
-        for (Node<T> c = myRoot; c != null; c = c.myNext)
+        Node<T> c = myRoot;
+        do {
             if (c.getData().intValue() < 10) cnt++;
+            c = c.myNext;
+        } while (c != myRoot);
         return cnt;
     }
 
     public void removeSpot(int pos) {
-        if (pos < 0 || pos >= getCount()) return;
-        if (pos == 0) {
-            removeFirst();
-            return;
-        }
+        int count = getCount();
+        if (pos < 0 || pos >= count) return;
+        if (pos == 0) { removeFirst(); return; }
         Node<T> c = myRoot;
         for (int i = 0; i < pos - 1; i++) c = c.myNext;
         c.myNext = c.myNext.myNext;
+        getLastNode().myNext = myRoot;
     }
 
-    public void clear() {
-        myRoot = null;
-    }
-
-    public boolean checkForNum(T n) {
-        return isThere(n);
-    }
-
-    public T getNum(int pos) {
-        return getSpot(pos);
-    }
+    public void clear() { myRoot = null; }
 
     public myCLL<T> getReverse() {
         myCLL<T> r = new myCLL<>();
-        for (Node<T> c = myRoot; c != null; c = c.myNext) r.addfront(c.getData());
+        if (myRoot == null) return r;
+        Node<T> c = myRoot;
+        do {
+            r.addfront(c.getData());
+            c = c.myNext;
+        } while (c != myRoot);
         return r;
     }
 
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             Node<T> c = myRoot;
-            public boolean hasNext() { return c != null; }
-            public T next() { T v = c.getData(); c = c.myNext; return v; }
+            boolean started = false;
+            public boolean hasNext() { return c != null && (!started || c != myRoot); }
+            public T next() { started = true; T v = c.getData(); c = c.myNext; return v; }
         };
     }
 
     public double avg() {
+        if (myRoot == null) return 0;
         int n = 0; double s = 0;
-        for (T t : this) { s += t.doubleValue(); n++; }
-        return n == 0 ? 0 : s / n;
+        Node<T> c = myRoot;
+        do { s += c.getData().doubleValue(); n++; c = c.myNext; } while (c != myRoot);
+        return s / n;
     }
 
     public T min() {
         if (myRoot == null) return null;
         T m = myRoot.getData();
-        for (T t : this) if (t.compareTo(m) < 0) m = t;
+        Node<T> c = myRoot.myNext;
+        while (c != myRoot) { if (c.getData().compareTo(m) < 0) m = c.getData(); c = c.myNext; }
         return m;
     }
 
     public T max() {
         if (myRoot == null) return null;
         T m = myRoot.getData();
-        for (T t : this) if (t.compareTo(m) > 0) m = t;
+        Node<T> c = myRoot.myNext;
+        while (c != myRoot) { if (c.getData().compareTo(m) > 0) m = c.getData(); c = c.myNext; }
         return m;
     }
 
     public int findSlotMaxFirst() {
         if (myRoot == null) return -1;
-        T mx = max();
-        int i = 0;
-        for (T t : this) { if (t.equals(mx)) return i; i++; }
+        T mx = max(); int i = 0;
+        Node<T> c = myRoot;
+        do { if (c.getData().equals(mx)) return i; i++; c = c.myNext; } while (c != myRoot);
         return -1;
     }
 
     public int findSlotMaxLast() {
         if (myRoot == null) return -1;
-        T mx = max();
-        int i = 0, f = -1;
-        for (T t : this) { if (t.equals(mx)) f = i; i++; }
+        T mx = max(); int i = 0, f = -1;
+        Node<T> c = myRoot;
+        do { if (c.getData().equals(mx)) f = i; i++; c = c.myNext; } while (c != myRoot);
         return f;
     }
 
@@ -199,33 +219,35 @@ public class myCLL<T extends Number & Comparable<T>>implements Iterable<T>  {
     }
 
     public int lose58() {
-        int cnt = 0;
-        Node<T> c = myRoot, p = null;
-        while (c.getData().equals(58)) {
+        if (myRoot == null) return 0;
+        int cnt = 0; Node<T> c = myRoot, p = getLastNode();
+        do {
             if (c.getData().intValue() == 58) {
                 cnt++;
-                if (c == myRoot) myRoot = c.myNext;
+                if (c == myRoot) { myRoot = c.myNext; p.myNext = myRoot; }
                 else p.myNext = c.myNext;
             } else p = c;
             c = c.myNext;
-        }
+        } while (c != myRoot);
         return cnt;
     }
 
     public int getEvenCount() {
-        int cnt = 0;
-        for (T t : this) if (t.intValue() % 2 == 0) cnt++;
+        if (myRoot == null) return 0;
+        int cnt = 0; Node<T> c = myRoot;
+        do { if (c.getData().intValue() % 2 == 0) cnt++; c = c.myNext; } while (c != myRoot);
         return cnt;
     }
 
     public void killOdds() {
-        Node<T> c = myRoot, p = null;
-        while (c != null) {
+        if (myRoot == null) return;
+        Node<T> c = myRoot, p = getLastNode();
+        do {
             if (c.getData().intValue() % 2 != 0) {
-                if (c == myRoot) myRoot = c.myNext;
+                if (c == myRoot) { myRoot = c.myNext; p.myNext = myRoot; }
                 else p.myNext = c.myNext;
             } else p = c;
             c = c.myNext;
-        }
+        } while (c != myRoot);
     }
 }

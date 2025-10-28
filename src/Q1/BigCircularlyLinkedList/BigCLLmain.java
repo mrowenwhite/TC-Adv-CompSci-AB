@@ -2,7 +2,7 @@ package Q1.BigCircularlyLinkedList;
 
 import java.io.*;
 
-public class BigLLmain {
+public class BigCLLmain {
     public static void main(String[] args) {
         myCLL<Integer> ll = new myCLL<>();
 
@@ -103,8 +103,7 @@ lose58: 2
 list after lose58: 0 1 2 3 4 5 6 7 8 10 11 12 13 20
 getEvenCount: 8
 killOdds: 0 2 4 6 8 10 12 20
-clear:
-isEmpty after clear: true
+clear: isEmpty after clear: true
 
 Process finished with exit code 0
  */
