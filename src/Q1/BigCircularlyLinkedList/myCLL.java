@@ -29,9 +29,9 @@ public class myCLL<T extends Number & Comparable<T>> implements Iterable<T> {
             t.myNext = myRoot;
         } else {
             Node<T> last = getLastNode();
-            t.myNext = myRoot;
-            myRoot = t;
+            last = last.myNext;
             last.myNext = myRoot;
+
         }
         return true;
     }
