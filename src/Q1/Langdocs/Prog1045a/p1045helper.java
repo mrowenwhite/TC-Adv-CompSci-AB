@@ -1,7 +1,5 @@
 package Q1.Langdocs.Prog1045a;
 
-import Q1.BigLinkedList.Node;
-
 public class p1045helper {
 
     public static class Node {
@@ -22,8 +20,10 @@ public class p1045helper {
             if (temp.next == temp) {
                 return temp.val;
             }
-            temp.next = temp.next.next;
-            temp = temp.next;
+            else {
+                temp.next = temp.next.next;
+                temp = temp.next;
+            }
         }
         return -1;
     }
