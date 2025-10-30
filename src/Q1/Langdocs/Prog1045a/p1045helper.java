@@ -3,7 +3,7 @@ package Q1.Langdocs.Prog1045a;
 public class p1045helper {
 
     public static class Node {
-        protected Node next;
+        public Node next;
         public int val;
 
         public Node(int val) {
@@ -15,49 +15,33 @@ public class p1045helper {
     private Node  tail;
 
     public int GetSafeSpot() {
-        Node temp = head.next;
-        while (temp != head) {
-            if (temp.next == temp) {
-                return temp.val;
+        Node temp = head;
+        while (temp.next != temp) {
+
+            if (temp.next==head) {
+                head = temp.next.next;
             }
             else {
                 temp.next = temp.next.next;
                 temp = temp.next;
             }
         }
-        return -1;
+        return temp.val;
     }
-    public void addfront(int n) {
-        Node t = new Node(n);
-        t.next = head;
-        tail.next = t;
-        head = t;
-    }
-
-    public boolean addlast(int n) {
-        Node t = new Node(n);
-        if (head == null) {
-            head = t;
-            head.next = t;
-            tail = t;
-            return true;
+    public void add(int n) {
+        Node newNode = new Node(n);
+        if (head==null) {
+            head = newNode;
+            newNode.next = newNode;
         }
-        Node c = head;
-        while (c.next != head)
-            c = c.next;
-        c.next = t;
-        t.next = head;
-        return true;
-    }
-
-    public Node getLastNode() {
-        Node temp = head;
-        while (temp != tail) {
-            temp = temp.next;
+        else {
+            Node lcN = head;
+            while (lcN.next != head)
+                lcN = lcN.next;
+            lcN.next = newNode;
+            newNode.next = head;
         }
-        return temp;
     }
-
     public void print() {
         Node temp = head;
         while (temp.next != head) {
