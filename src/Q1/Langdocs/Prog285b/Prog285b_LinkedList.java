@@ -5,7 +5,7 @@ import java.io.*;
 
 public class Prog285b_LinkedList {
     public static void main(String[] args) throws IOException {
-        Scanner input = new Scanner(new File("Langdats/Prog285b.txt"));;
+        Scanner input = new Scanner(new File("Langdats/Prog285b.txt"));
 
         Prog285bHelper list = new Prog285bHelper();
 
