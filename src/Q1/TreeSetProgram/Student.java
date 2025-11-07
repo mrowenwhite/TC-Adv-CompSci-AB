@@ -1,17 +1,26 @@
 package Q1.TreeSetProgram;
 
-public class Student<T extends Comparable<T>> {
-    private T name;
-    private int grade;
-    private int referrals;
+public class Student implements Comparable<Student> {
+    private String name;
+    private int lowestGrade;
+    private boolean hasReferral;
 
-    public Student(T name, int grade, int referrals) {
+    public Student(String name, int lowestGrade, boolean referrals) {
         this.name = name;
-        this.grade = grade;
-        this.referrals = referrals;
+        this.lowestGrade = lowestGrade;
+        this.hasReferral = referrals;
     }
 
-    public T getName() {return name;}
-    public int getGrade() {return grade;}
-    public int getReferals() {return referrals;}
+    public String getName() {return name;}
+    public int getGrade() {return lowestGrade;}
+    public boolean getReferal() {return hasReferral;}
+
+    public void giveReferral() {
+        hasReferral = true;
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return  this.name.compareTo(o.name);
+    }
 }
