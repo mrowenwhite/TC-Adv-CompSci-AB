@@ -1,5 +1,6 @@
 package Q1.TreeSetProgram;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -15,27 +16,26 @@ public class TreeSetProgMain {
         int sCount = file.nextInt();
         int rCount = file.nextInt();
         for (int lcv = 0; lcv < sCount; lcv++) { // each student name, class, grade
-            String   line    = file.nextLine();
-            String[] data    = line.split(" ");
-            String   name    = data[0];
-            String   subject = data[1];
-            int lowestGrade  = Integer.parseInt(data[2]);
-
-            tSet.add(new Student(name, lowestGrade, false));
-        }
-        for (int lcv = 0; lcv < rCount; lcv++) { // each referral, studentName, month, day
             String name = file.next();
+            file.next();
+            int grade = file.nextInt();
+
+            for (Student student : tSet)
+                if (student.getName().equals(name))
+                    student.setGrade(grade);
+            tSet.add(new Student(name, grade));
+        }
+        for (int lcv = 0; lcv < rCount; lcv++) {
+            String[] line = file.nextLine().split(" ");
+            String name = line[0];
             for (Student student : tSet) {
-                if (student.getName().equals(name)) {
-                    student.giveReferral();
-                }
+                if (student.getName().equals(name)) student.giveReferral();
             }
         }
-        for  (Student student : tSet) {
-            System.out.println(student);
+        for (Student student : tSet) {
+            if (student.getGrade() > 89 && (!student.hasReferral())) student.print();
         }
-
-
     }
 }
+
 
