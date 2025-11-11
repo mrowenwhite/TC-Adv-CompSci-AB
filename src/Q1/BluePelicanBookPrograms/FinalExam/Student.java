@@ -1,4 +1,4 @@
-package Q1.TreeSetProgram;
+package Q1.BluePelicanBookPrograms.FinalExam;
 
 public class Student implements Comparable<Student> {
     private String name;
