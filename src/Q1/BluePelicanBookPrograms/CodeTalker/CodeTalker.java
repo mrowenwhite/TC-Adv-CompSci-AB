@@ -14,7 +14,6 @@ public class CodeTalker {
             String[] arr = line.split("=");
             System.out.println(arr.length);
              map.put(arr[0], arr[1]);
-
         }
 
         String[] words = file.nextLine().split(" ");
