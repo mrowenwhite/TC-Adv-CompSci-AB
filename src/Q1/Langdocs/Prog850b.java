@@ -11,9 +11,9 @@ public class Prog850b {
             Map<String, Integer> answers = new HashMap<>();
             while (input.hasNextLine()) {
                 String line = input.nextLine();
-                String[] cols = new String[6];
+                String[] cols = new String[3];
 
-                //line = line.substring(line.indexOf("\"") + 1,  line.indexOf("\""));
+                //Column A
                 if (line.substring(0, 1).equals("\"")) {
                     line = line.substring(1);
                     int spot = line.indexOf("\"");
@@ -27,6 +27,33 @@ public class Prog850b {
                     cols[0] = stuff;
                     line = line.substring(spot + 1);
                 }
+                //Column B
+                if (line.substring(0, 1).equals("\"")) {
+                    line = line.substring(1);
+                    int spot = line.indexOf("\"");
+                    String stuff =  line.substring(0, spot + 1);
+                    cols[1] = line;
+                    line = line.substring(spot + 2);
+                }
+                else {
+                    int spot = line.indexOf(",");
+                    String stuff =  line.substring(0, spot);
+                    cols[1] = stuff;
+                    line = line.substring(spot + 1);
+                }
+
+                String[] arr = line.split(",");
+                cols[2] = arr[3];
+
+                if (cols[1].equals("total")) {}
+                else {
+                    answers.put(cols[0], answers.getOrDefault(cols[0], 0)+Integer.parseInt(cols[2]));
+                }
+                for (String key : answers.keySet()) {
+                    System.out.println(key + ": " + answers.get(key));
+                }
+
+
 
 
             }
