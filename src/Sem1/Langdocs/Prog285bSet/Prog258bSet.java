@@ -1,11 +1,7 @@
 package Sem1.Langdocs.Prog285bSet;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 
 public class Prog258bSet {
     public static void main(String[] args) throws IOException {
