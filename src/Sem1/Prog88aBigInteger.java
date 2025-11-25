@@ -10,8 +10,6 @@ public class Prog88aBigInteger {
         Integer sum = n.add(m).intValue(),diff = n.subtract(m).intValue(),product = n.multiply(m).intValue(), distance = Math.abs(n.subtract(m).intValue()), max = (n.intValue()>m.intValue()) ? n.intValue() : m.intValue();
         Double avg = (n.doubleValue()+m.doubleValue())/2;
         System.out.printf("Sum:\t%d\nDifference:\t%d\nProduct:\t%d\nAverage:\t%.2f\nDistance:\t%d\nMax:\t%d", sum, diff, product, avg, distance, max);
-
-
     }
 }
 /*
