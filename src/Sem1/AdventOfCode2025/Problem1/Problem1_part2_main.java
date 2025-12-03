@@ -2,7 +2,10 @@ package Sem1.AdventOfCode2025.Problem1;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Problem1_part2_main {
     static int pos = 50, move = 0, count = 0;
