@@ -21,14 +21,18 @@ public class Problem1_main {
     public static void tickRight(int move) {
         for (int i = 0; i < move; i++) {
             pos++;
-            if (pos>99) pos = 0;
+            if (pos > 99) {
+                pos = 0;
+            }
+
         }
-        if (pos==0)count++;
     }
     public static void tickLeft(int move) {
         for (int i = 0; i < move; i++) {
             pos--;
-            if (pos<0) pos = 99;
+            if (pos<0) {
+                pos = 99;
+            }
         }
 
         if (pos==0)count++;
