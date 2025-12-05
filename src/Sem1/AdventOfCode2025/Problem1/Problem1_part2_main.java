@@ -17,27 +17,8 @@ public class Problem1_part2_main {
         System.out.println(count);
     }
 
-
-    public static void tickRight(int move) {
-        for (int i = 0; i < move; i++) {
-            pos++;
-            if (pos>99) {
-                pos = 0;
-                count++;
-            }
-        }
-        //if (pos==0) count++;
-    }
-    public static void tickLeft(int move) {
-        for (int i = 0; i < move; i++) {
-            pos--;
-            if (pos<=0) {
-                pos = 99;
-                count++;
-            }
-        }
-       // if (pos==0)count++;
-    }
+    public static void tickRight(int move) {for (int i=0;i<move;i++){pos++;if (pos>99){pos = 0;count++; }}}
+    public static void tickLeft(int move)  {for (int i=0;i<move;i++){pos--;if (pos<=0){pos = 99;count++;}}}
 }
-//6616
+//6616 should be correct: code runs 6684
 
