@@ -39,15 +39,30 @@ public class BinaryTree {
     public void add(int[] nums) {for (int i : nums) {this.add(i);}}
 
     public void printIntOrder() {
-        printIntOrder(root);
+        printINFIX(root);
     }
 
-    private void printIntOrder(btNode node) {
-        if (node == null) return;
-        printIntOrder(node.left);
-        System.out.print(node.data + " ");
-        printIntOrder(node.right);
 
+    public void printPREFIX(btNode node) {
+        if (node == null) return;
+        System.out.print(node.data + " ");
+        printINFIX(node.left);
+        printINFIX(node.right);
+    }
+
+
+    public void printINFIX(btNode node) {
+        if (node == null) return;
+        printINFIX(node.left);
+        System.out.print(node.data + " ");
+        printINFIX(node.right);
+    }
+
+    public void printPOSTFIX(btNode node) {
+        if (node == null) return;
+        printINFIX(node.left);
+        printINFIX(node.right);
+        System.out.print(node.data + " ");
     }
 
 
