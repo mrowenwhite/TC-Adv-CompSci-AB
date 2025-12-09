@@ -7,6 +7,8 @@ public class bigBTmain {
         bt.add(list);
         //bt.printIntOrder();
         bt.printPREFIX();
+        System.out.println();
         bt.delete(7);
+        bt.printINFIX();
     }
 }

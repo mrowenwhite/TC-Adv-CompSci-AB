@@ -12,6 +12,7 @@ public class BinaryTree {
             right = null;
         }
         public int getData() {return data;}
+        public void setData(int data) {this.data = data;}
     }
 
 
@@ -84,7 +85,7 @@ public class BinaryTree {
                 temp = temp.right;
             }
         }
-        if (temp!=null) {return;}
+        if (temp==null) {return;}
         if (temp.left==null && temp.right==null) {
 
         }
