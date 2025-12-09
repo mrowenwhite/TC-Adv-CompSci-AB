@@ -5,6 +5,8 @@ public class bigBTmain {
         int[] list = {4,2,8,5,1,7,3};
         BinaryTree bt = new BinaryTree();
         bt.add(list);
-        bt.printIntOrder();
+        //bt.printIntOrder();
+        bt.printPREFIX();
+        bt.delete(7);
     }
 }

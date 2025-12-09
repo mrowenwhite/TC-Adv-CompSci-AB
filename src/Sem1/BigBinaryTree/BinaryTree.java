@@ -1,6 +1,7 @@
 package Sem1.BigBinaryTree;
 
 public class BinaryTree {
+    private btNode root;
     static class btNode {
         public btNode left;
         public btNode right;
@@ -8,10 +9,11 @@ public class BinaryTree {
         public btNode(int data) {
             this.data = data;
             left = null;
-            right = null;}
+            right = null;
+        }
         public int getData() {return data;}
     }
-    private btNode root;
+
 
     public BinaryTree() {
         root = null;
@@ -43,26 +45,49 @@ public class BinaryTree {
     }
 
 
-    public void printPREFIX(btNode node) {
+
+
+    private void printPREFIX(btNode node) {
         if (node == null) return;
         System.out.print(node.data + " ");
         printINFIX(node.left);
         printINFIX(node.right);
     }
+    public void printPREFIX() {printPREFIX(root);}
 
 
-    public void printINFIX(btNode node) {
+    private void printINFIX(btNode node) {
         if (node == null) return;
         printINFIX(node.left);
         System.out.print(node.data + " ");
         printINFIX(node.right);
     }
+    public void printINFIX() {printINFIX(root);}
 
-    public void printPOSTFIX(btNode node) {
+    private void printPOSTFIX(btNode node) {
         if (node == null) return;
         printINFIX(node.left);
         printINFIX(node.right);
         System.out.print(node.data + " ");
+    }
+    public void printPOSTFIX() {printPOSTFIX(root);}
+
+    public void delete(int n) {
+        btNode prev = null;
+        btNode temp = root;
+        while ((temp!=null && (temp.getData()!=n))) {
+            prev = temp;
+            if (n<temp.getData()) {
+                temp = temp.left;
+            }
+            else {
+                temp = temp.right;
+            }
+        }
+        if (temp!=null) {return;}
+        if (temp.left==null && temp.right==null) {
+
+        }
     }
 
 
