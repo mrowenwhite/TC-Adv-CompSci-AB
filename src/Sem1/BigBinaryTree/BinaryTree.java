@@ -40,10 +40,7 @@ public class BinaryTree {
         }
     }
     public void add(int[] nums) {for (int i : nums) {this.add(i);}}
-
-    public void printIntOrder() {
-        printINFIX(root);
-    }
+    public void printIntOrder() {printINFIX(root);}
 
 
 
@@ -51,8 +48,8 @@ public class BinaryTree {
     private void printPREFIX(btNode node) {
         if (node == null) return;
         System.out.print(node.data + " ");
-        printINFIX(node.left);
-        printINFIX(node.right);
+        printPREFIX(node.left);
+        printPREFIX(node.right);
     }
     public void printPREFIX() {printPREFIX(root);}
 
@@ -67,8 +64,8 @@ public class BinaryTree {
 
     private void printPOSTFIX(btNode node) {
         if (node == null) return;
-        printINFIX(node.left);
-        printINFIX(node.right);
+        printPOSTFIX(node.left);
+        printPOSTFIX(node.right);
         System.out.print(node.data + " ");
     }
     public void printPOSTFIX() {printPOSTFIX(root);}
@@ -85,9 +82,34 @@ public class BinaryTree {
                 temp = temp.right;
             }
         }
+        //leaf
         if (temp==null) {return;}
         if (temp.left==null && temp.right==null) {
+            if (n<prev.getData()) {
+                prev.left = null;
+                return;
+            }
+            else {
+                prev.right = null;
+                return;
+            }
+        }
+        // 1 branch
+        if (temp.left==null || temp.right==null) {
+            if (temp==root) {
+                if (temp.left==null) {
+                    root = root.right;
+                }
+                else {
+                    root = root.left;
+                }
+                return;
+            }
+            else {
+                if (n<prev.getData()) {
 
+                }
+            }
         }
     }
 
