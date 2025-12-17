@@ -103,13 +103,28 @@ public class BinaryTree {
                 else {
                     root = root.left;
                 }
-                return;
+
             }
             else {
                 if (n<prev.getData()) {
-
+                    prev.left = temp.left;
+                }
+                else {
+                    prev.right = temp.right;
                 }
             }
+            return;
+        }
+        // both branches
+        prev = temp;
+        btNode find = temp.left;
+        while (find!=null) {
+            prev = find;
+            find = find.right;
+        }
+        if (prev == temp.left) {
+            //same spot
+
         }
     }
 
