@@ -118,17 +118,18 @@ public class BinaryTree {
         // both branches
         prev = temp;
         btNode find = temp.left;
-        while (find!=null) {
+        while (find.right!=null) {
             prev = find;
             find = find.right;
         }
-        if (prev == temp.left) {
-            //same spot
+        if (find == temp.left) {
+            temp.setData(find.getData());
+            temp.left = find.left;
+        }
+        else {
+            temp.setData(find.getData());
+            prev.right = find.left;
 
         }
     }
-
-
-
-
 }
