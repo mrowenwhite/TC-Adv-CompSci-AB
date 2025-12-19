@@ -1,6 +1,7 @@
 package Sem1.BigBinaryTree;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Queue;
 
 public class BinaryTree {
@@ -210,17 +211,26 @@ public class BinaryTree {
 
     public void KillClosestToAvg() {
         int avg = AverageValue();
+        btNode closest = root;
         Queue<btNode> queue = new ArrayDeque<>();
         queue.add(root);
         while (!queue.isEmpty()) {
             int size = queue.size();
             for (int i = 0; i < size; i++) {
+
                 btNode node = queue.poll();
                 if (node.left != null) {queue.add(node.left);}
                 if (node.right != null) {queue.add(node.right);}
+                if (node.getData()==avg) {
+                    delete(node.getData());
+                    return;
+                }
+
+
             }
             size  = queue.size();
         }
+
     }
 
 }

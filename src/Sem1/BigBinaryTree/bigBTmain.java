@@ -10,7 +10,7 @@ public class bigBTmain {
         for (int i =0; i <= 50; i ++) {
             int n = rand.nextInt(100);
             binaryTree.add(n);
-            //2
+        //2
             System.out.print(n +" ");
         }
         System.out.println();
@@ -33,7 +33,8 @@ public class bigBTmain {
         binaryTree.printPREFIX();
         System.out.println("\n\n");
         //8
-        int size = binaryTree.size();
+        binaryTree.KillClosestToAvg();
+
 
 
     }
