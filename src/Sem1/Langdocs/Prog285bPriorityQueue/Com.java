@@ -1,4 +1,4 @@
-package Sem1.Langdocs.Prog285b_StackQueue;
+package Sem1.Langdocs.Prog285bPriorityQueue;
 
 public class Com {
     private int myId, myCode;
@@ -27,7 +27,6 @@ public class Com {
     public String toString() {
         return myId + "\t" + myCode + "\t" + mySales +  "\t" + myCom;
     }
-
 
     public int getId() {return myId;}
     public int getCode() {return myCode;}
