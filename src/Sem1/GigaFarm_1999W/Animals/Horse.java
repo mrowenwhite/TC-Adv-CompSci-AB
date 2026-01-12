@@ -9,10 +9,16 @@ public class Horse extends Animal{
         super();
         name = makeName();
         rideCost = (Math.random()*10.5-7.01)+7.0;
+        this.foods.put("corn", (int)(Math.random()*(4-3))+2);
+        this.foods.put("haybales", (int)(Math.random()*3-2)+1);
 
     }
 
-
+/*
+of corn cobs they eat, 2-4 a day, followed by the number of hay
+bales, 1 to 3 a day, followed by the pounds of beans, 2 to 5 pounds a day and the pounds of oats, 1 to 4
+pounds a day.
+ */
 
 
 
