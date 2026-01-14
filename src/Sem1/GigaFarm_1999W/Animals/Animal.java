@@ -12,7 +12,10 @@ public class Animal {
         this.feedCost = 0.0;
         this.income = 0;
     }
-    public double getFeedCost() {return feedCost = (this.foods.get("haybales")*2.25)+ (this.foods.get("corn")*0.19)+ (this.foods.get("beans")*0.07)+ (this.foods.get("oats")*0.04);}
+    public double getFeedCost() {
+        feedCost = (this.foods.get("haybales")*2.25)+ (this.foods.get("corn")*0.19)+ (this.foods.get("beans")*0.07)+ (this.foods.get("oats")*0.04);
+        return feedCost;
+    }
     public int getIncome()   {return income;}
     public double getProfit() {return (double)this.income - this.feedCost;}
 

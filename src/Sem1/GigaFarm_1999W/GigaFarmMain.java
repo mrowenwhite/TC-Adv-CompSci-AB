@@ -7,8 +7,12 @@ import java.util.*;
 public class GigaFarmMain {
     public static void main(String[] args) {
         LinkedList<Farm> farms = new LinkedList<>();
-        Map<Integer, Cow> cows = new HashMap<>();
-        Set<Turkey> turkeys = new HashSet<>();
+        for (int i = 0; i < 5; i++) {
+            farms.add(new Farm());
+        }
+
+        //1 most profitable animal for each farm?
+
 
 
 

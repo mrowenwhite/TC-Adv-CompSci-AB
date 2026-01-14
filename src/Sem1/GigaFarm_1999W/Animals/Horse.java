@@ -16,6 +16,8 @@ public class Horse extends Animal{
     }
 
 
+
+
     public String makeName() {
         char[] letters = {'a','b','c','d','e','f','g', 'h','j','k','l','m','n','o','p', 'q','r','s','t','u','v','w','x', 'y','z'};
         char[] vowels = {'a', 'e', 'i', 'o', 'u', 'y'};
