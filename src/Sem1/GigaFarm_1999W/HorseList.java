@@ -33,6 +33,11 @@ public class HorseList {
             lcN.next = n;
             n.next = head;
         }
-
+    }
+    public double getProfit() {
+        double profit = 0;
+        for (Node n = head; n != null; n = n.next)
+            profit += n.horse.getProfit();
+        return profit;
     }
 }
