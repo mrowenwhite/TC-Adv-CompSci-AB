@@ -1,6 +1,4 @@
 package Sem1.GigaFarm_1999W;
-import Sem1.GigaFarm_1999W.Animals.Cow;
-import Sem1.GigaFarm_1999W.Animals.Turkey;
 
 import java.util.*;
 
@@ -12,6 +10,9 @@ public class GigaFarmMain {
         }
 
         //1 most profitable animal for each farm?
+        for (int i = 0; i < farms.size(); i++) {
+            System.out.println("Farm " + (i + 1) + ": " + farms.get(i).bestAnimal());
+        }
 
 
 

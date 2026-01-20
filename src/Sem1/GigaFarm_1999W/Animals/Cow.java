@@ -1,11 +1,9 @@
 package Sem1.GigaFarm_1999W.Animals;
 
 public class Cow extends Animal {
-    private final int code;
     private final int milk;
-    public Cow(int code) {
+    public Cow() {
         super();
-        this.code = code;
         this.weight = (int)((Math.random()*1500-1001)+1000);
         this.milk   = (int)((Math.random()*100-21)+20); // 20-100 gals milk
         this.foods.put("corn",     (int)((Math.random()*4-3)+2)); // 2-4 corn
@@ -14,7 +12,6 @@ public class Cow extends Animal {
         this.foods.put("oats",     (int)((Math.random()*4-3)+2)); // 2-4 oats
 
     }
-    public int getCode() {return code;}
     public int getMilk() {return milk;}
     public int getWeight() {return weight;}
 
