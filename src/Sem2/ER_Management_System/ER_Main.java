@@ -22,12 +22,14 @@ public class ER_Main {
                     System.out.println("Action Preformed.\n");
                 }
             }
+
             System.out.println("Patient Treated!  Continuing to next Patient\n\n");
 
 
 
 
         }
+        System.out.println("All Patients Treated!\n");
 
 
     }
@@ -39,8 +41,8 @@ public class ER_Main {
 
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
-            String[] vals =  line.split(",");
-            Patient  patient = new Patient(vals[0], vals[1], vals[2]);
+            String[] vals =  line.split(", ");
+            Patient  patient = new Patient(vals[0], vals[1].strip(), vals[2]);
             if (!registry.containsKey(patient.getID())) {
                 registry.put(patient.getID(), patient);
             }
