@@ -37,7 +37,4 @@ import java.util.stream.Collectors;
         }
         public int getPriority() {return priority;}
         public ArrayDeque<String> getActions() {return actions;}
-        public void addTreatment(String ailment) {
-
-        }
     }

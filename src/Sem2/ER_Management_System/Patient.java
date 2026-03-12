@@ -20,6 +20,7 @@ public class Patient implements Comparable<Patient> {
         return this.ailment;
     }
 
+    public void addTreatment(String ailment) {TreatmentHistory.push(new Ailment(ailment));}
     public int compareTo(Patient p) {
         return Integer.compare(p.getPriority(), this.getPriority());
     }
