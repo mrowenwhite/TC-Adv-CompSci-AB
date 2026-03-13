@@ -2,6 +2,7 @@ package Sem2.ER_Management_System;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
     public class Ailment {
         public int priority;
         private String ailment;
