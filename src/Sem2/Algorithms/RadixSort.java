@@ -3,8 +3,8 @@ package Sem2.Algorithms;
 import java.util.Arrays;
 
 public class RadixSort {
-    public void radixSort(int[] array) {
-        int max = Arrays.stream(array).max().getAsInt();
+    public void intRadixSort(int[] array) {
+        int max = Arrays.stream(array).max().isPresent() ? Arrays.stream(array).max().getAsInt() : 0;
         int exp = 1;
         while ((max/exp)>0) {
             CountingSortByLength(array, exp);
@@ -31,13 +31,41 @@ public class RadixSort {
         System.arraycopy(output, 0, array, 0, n);
     }
 
+
+
+    public void stringRadixSort(String[] array) {
+        if  (array == null || array.length == 0)return;
+        int stringLen = array[0].length();
+        for  (int index = stringLen-1; index > 0; index--) {
+            StableSortByCharacter(array, index);
+        }
+    }
+
+    public void StableSortByCharacter(String[] array, int index) {
+        int n  = array.length;
+        String[] output = new String[n];
+        int[] count = new int[256];
+        for (String s : array)        count[s.charAt(index)]++;
+        for (int i = 1; i <= 255; i++)count[i] += count[i-1];
+
+        for (int i = n-1; i >= 0; i--) {
+            int asciiVal = array[i].charAt(index);
+            output[count[asciiVal]-1] = array[i];
+            count[asciiVal]--;
+        }
+        for (int i = 0; i < n; i++) {
+            array[i] = output[i];
+        }
+    }
     public static void main(String[] args) {
         RadixSort radixSort = new RadixSort();
-        int[] randNums = {343, 829, 198, 553, 900, 322, 814, 615, 498, 704};
+        String[] randNums = {"a343", "c829", "b198", "d553", "b900", "c322", "a814", "f615", "e498", "j704"};
 
-        radixSort.radixSort(randNums);
-        for (int i = 0; i < randNums.length; i++) {
-            System.out.println(randNums[i]);
+        radixSort.stringRadixSort(randNums);
+
+        for (String randNum : randNums) {
+            System.out.println(randNum);
         }
     }
 }
+
