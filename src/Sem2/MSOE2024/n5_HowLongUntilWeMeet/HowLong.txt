@@ -1,0 +1,10 @@
+20
+3
+6
+abcdef
+acaeaa
+babbgg
+
+aabbaa
+acdcdi
+begjgd
