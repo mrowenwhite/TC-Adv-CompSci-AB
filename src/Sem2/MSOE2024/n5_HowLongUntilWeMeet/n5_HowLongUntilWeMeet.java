@@ -1,37 +1,27 @@
 package Sem2.MSOE2024.n5_HowLongUntilWeMeet;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 
 public class n5_HowLongUntilWeMeet {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(new File("src/Sem2/MSOE2024/n5_HowLongUntilWeMeet/HowLong.txt"));
-        int maxDistance =  sc.nextInt(), rows =  sc.nextInt(), cols =  sc.nextInt();
-        char[][] mat1 = new char[rows][cols];
-        char[][] mat2 = new char[rows][cols];
+        int maxDistance = sc.nextInt(), rows = sc.nextInt(), cols = sc.nextInt(), smallestDist = Integer.MAX_VALUE;
+        char[][] mat1 = new char[rows][cols], mat2  = new char[rows][cols];
+        Map<Character, Integer> lettermap = IntStream.rangeClosed('a', 'z').boxed().collect(Collectors.toMap(i -> (char) i.intValue(), i -> i - 'a' + 1));
+        sc.nextLine();for (int r = 0; r < rows; r++) mat1[r] = sc.nextLine().toCharArray();
+        sc.nextLine();for (int r = 0; r < rows; r++) mat2[r] = sc.nextLine().toCharArray();
 
-        String alph = "abcdefghijklmnopqrstuvwxyz";
-        HashMap<Character, Integer> alphabet = new HashMap<Character, Integer>();
-        for (int n = 0; n < alph.length(); n++) alphabet.put(alph.charAt(n), n);
 
         for (int r = 0; r < rows; r++)
-            for (int c = 0; c < cols; c++)
-                mat1[r][c] = sc.nextLine().charAt(r);
+            for (int c = 0; c < cols; c++) {
+                int diff = Math.max(lettermap.get(mat1[r][c]),lettermap.get(mat2[r][c])) - Math.min(lettermap.get(mat1[r][c]), lettermap.get(mat2[r][c]));
 
-        sc.nextLine();
-
-        for (int r = 0; r < rows; r++)
-            for (int c = 0; c < cols; c++)
-                mat2[r][c] = sc.nextLine().charAt(r);
-
-
-        int smallestDist = Integer.MAX_VALUE;
-        for (int r = 0; r < rows; r++)
-            for (int c = 0; c < cols; c++)
-                smallestDist = Math.min(Math.abs(alphabet.get(mat1[r][c])-alphabet.get(mat2[r][c])), smallestDist);
+                if (diff < smallestDist)
+                    smallestDist = diff;
+            }
         System.out.println(smallestDist*5000 + " years");
-
 
     }
 }
