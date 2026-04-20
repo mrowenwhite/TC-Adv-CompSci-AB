@@ -20,7 +20,7 @@ public class MyFrame extends JFrame {
         header.add(new JButton("Add Transaction"));
 
         JButton button = new JButton("Add Transaction");
-        button.setAction(new ActionListener() {}
+        // set button to add transaction to transaction list
         this.add(header, BorderLayout.NORTH);
     }
 
