@@ -47,7 +47,8 @@ public class MyFrame extends JFrame {
             System.out.println(t);
             for (int lcv = 0; lcv < list.size(); lcv++) {
                 Transaction t1 = list.get(lcv);
-                table.add
+                DefaultTableModel model2 = table.getModel();
+                model2.addRow(new Object[]{t1.category(), t1.amount(), t1.description()});
                 // ADD ROWS WITH THE MODEL< TALK TO LANDON!!!!!!!!!
 
                 table.setValueAt(t1.category(),    lcv, 0);
