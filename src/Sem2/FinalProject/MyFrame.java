@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MyFrame extends JFrame {
     JPanel header;
@@ -33,24 +35,23 @@ public class MyFrame extends JFrame {
         header.add(new JLabel("Description: "));header.add(descriptions);
         table.setModel(new DefaultTableModel(3, 3));
 
-        JButton button = getJButton();
+        JButton button = getAddJButton();
+        JButton reverser = getReverseButton();
         header.add(button);
+        header.add(reverser);
         this.add(header, BorderLayout.NORTH);
         this.add(table, BorderLayout.CENTER);
     }
 
-    private JButton getJButton() {
+    private JButton getAddJButton() {
         JButton button = new JButton("Add Transaction");
         button.addActionListener(e ->{
             Transaction t = new Transaction((String)categories.getSelectedItem(), Integer.parseInt(amounts.getText()), (String)descriptions.getSelectedItem());
             list.add(t);
             System.out.println(t);
+            ((DefaultTableModel) table.getModel()).addRow(new Object[] {});
             for (int lcv = 0; lcv < list.size(); lcv++) {
                 Transaction t1 = list.get(lcv);
-                DefaultTableModel model2 = table.getModel();
-                model2.addRow(new Object[]{t1.category(), t1.amount(), t1.description()});
-                // ADD ROWS WITH THE MODEL< TALK TO LANDON!!!!!!!!!
-
                 table.setValueAt(t1.category(),    lcv, 0);
                 table.setValueAt(t1.amount(),      lcv, 1);
                 table.setValueAt(t1.description(), lcv, 2);
@@ -87,4 +88,23 @@ public class MyFrame extends JFrame {
     public void addTransaction(Transaction transaction) {
         list.add(transaction);
     }
+
+    public JButton getReverseButton() {
+        JButton button = new JButton("Reverse Transaction");
+        button.addActionListener(e -> {
+            list = new ArrayList<>(list.reversed());
+            updateList();
+        });
+
+        return button;
+    }
+
+    public void updateList() {
+        for  (int lcv = 0; lcv < list.size(); lcv++) {
+            table.setValueAt(list.get(lcv).category(),    lcv, 0);
+            table.setValueAt(list.get(lcv).amount(),      lcv, 1);
+            table.setValueAt(list.get(lcv).description(), lcv, 2);
+        }
+    }
+
 }
