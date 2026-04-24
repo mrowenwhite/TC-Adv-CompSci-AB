@@ -1,39 +1,34 @@
 package Sem2.FinalProject;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class MyFrame extends JFrame {
     JPanel header;
     JTable table;
     ArrayList<Transaction> list;
     JTextField amounts;
-    JComboBox<String> categories;
-    JComboBox<String> descriptions;
+    JComboBox<String> categories, descriptions;
 
     MyFrame(int len, int wid) {
-
         this.setSize(wid, len);
         this.setVisible(true);
-        this.setLayout(new FlowLayout());
+        this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBackground(Color.lightGray);
         list         = new ArrayList<>();
         header       = new JPanel();
         table        = new JTable(new DefaultTableModel(3, 0));
         amounts      = MakeAmountBox();
-        categories   = MakeCategoryBox();
-        descriptions = MakeDescriptionBox();
+        categories   = MakeComboBox(new String[] {"Option 1", "Option 2", "Option 3", "Option 4"});
+        descriptions = MakeComboBox(new String[] {"Option 1", "Option 2", "Option 3", "Option 4"});
 
-        header.add(new JLabel("Category: "));header.add(categories);
-        header.add(new JLabel("Amount: "));header.add(amounts);
+        header.add(new JLabel("Category:    "));header.add(categories);
+        header.add(new JLabel("Amount:      "));header.add(amounts);
         header.add(new JLabel("Description: "));header.add(descriptions);
-        table.setModel(new DefaultTableModel(3, 3));
+        table.setModel(new DefaultTableModel(2, 3));
 
         JButton button = getAddJButton();
         JButton reverser = getReverseButton();
@@ -48,26 +43,19 @@ public class MyFrame extends JFrame {
         button.addActionListener(e ->{
             Transaction t = new Transaction((String)categories.getSelectedItem(), Integer.parseInt(amounts.getText()), (String)descriptions.getSelectedItem());
             list.add(t);
-            System.out.println(t);
             ((DefaultTableModel) table.getModel()).addRow(new Object[] {});
-            for (int lcv = 0; lcv < list.size(); lcv++) {
-                Transaction t1 = list.get(lcv);
-                table.setValueAt(t1.category(),    lcv, 0);
-                table.setValueAt(t1.amount(),      lcv, 1);
-                table.setValueAt(t1.description(), lcv, 2);
+            for  (int lcv = 0; lcv < list.size(); lcv++) {
+                table.setValueAt(list.get(lcv).category(),    lcv, 0);
+                table.setValueAt(list.get(lcv).amount(),      lcv, 1);
+                table.setValueAt(list.get(lcv).description(), lcv, 2);
             }
-
         });
         return button;
     }
 
-    private JComboBox<String> MakeCategoryBox() {
-        JComboBox<String> comboBox = new JComboBox<>();
+    private JComboBox<String> MakeComboBox(String[] options) {
+        JComboBox<String> comboBox = new JComboBox<>(options);
         comboBox.setSize(100, 20);
-        comboBox.addItem("Option 1");
-        comboBox.addItem("Option 2");
-        comboBox.addItem("Option 3");
-        comboBox.addItem("Option 4");
         return comboBox;
     }
     private JTextField MakeAmountBox() {
@@ -75,36 +63,17 @@ public class MyFrame extends JFrame {
         field.setSize(100, 20);
         return field;
     }
-    private JComboBox<String> MakeDescriptionBox() {
-        JComboBox<String> comboBox = new JComboBox<>();
-        comboBox.setSize(100, 20);
-        comboBox.addItem("Option 1");
-        comboBox.addItem("Option 2");
-        comboBox.addItem("Option 3");
-        comboBox.addItem("Option 4");
-        return comboBox;
-    }
-
-    public void addTransaction(Transaction transaction) {
-        list.add(transaction);
-    }
 
     public JButton getReverseButton() {
         JButton button = new JButton("Reverse Transaction");
         button.addActionListener(e -> {
             list = new ArrayList<>(list.reversed());
-            updateList();
-        });
-
+            for  (int lcv = 0; lcv < list.size(); lcv++) {
+                table.setValueAt(list.get(lcv).category(),    lcv, 0);
+                table.setValueAt(list.get(lcv).amount(),      lcv, 1);
+                table.setValueAt(list.get(lcv).description(), lcv, 2);
+            }});
         return button;
-    }
-
-    public void updateList() {
-        for  (int lcv = 0; lcv < list.size(); lcv++) {
-            table.setValueAt(list.get(lcv).category(),    lcv, 0);
-            table.setValueAt(list.get(lcv).amount(),      lcv, 1);
-            table.setValueAt(list.get(lcv).description(), lcv, 2);
-        }
     }
 
 }
