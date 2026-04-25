@@ -2,15 +2,18 @@ package Sem2.FinalProject;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class MyFrame extends JFrame {
+    static JLabel eastTextSummary;
     JPanel header;
     JTable table;
     ArrayList<Transaction> list;
     JTextField amounts;
     JComboBox<String> categories, descriptions;
+    static Map<String, Integer> map;
 
     MyFrame(int len, int wid) {
         this.setSize(wid, len);
@@ -18,12 +21,15 @@ public class MyFrame extends JFrame {
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.lightGray);
-        list         = new ArrayList<>();
-        header       = new JPanel();
-        table        = new JTable(new DefaultTableModel(3, 0));
-        amounts      = MakeAmountBox();
-        categories   = MakeComboBox(new String[] {"Option 1", "Option 2", "Option 3", "Option 4"});
-        descriptions = MakeComboBox(new String[] {"Option 1", "Option 2", "Option 3", "Option 4"});
+        list             = new ArrayList<>();
+        map              = new HashMap<>();
+        header           = new JPanel();
+        table            = new JTable(new DefaultTableModel(3, 0));
+        eastTextSummary  = new JLabel();
+        amounts          = MakeAmountBox();
+        categories       = MakeComboBox(new String[] {"Option 1", "Option 2", "Option 3", "Option 4"});
+        descriptions     = MakeComboBox(new String[] {"Option 1", "Option 2", "Option 3", "Option 4"});
+
 
         header.add(new JLabel("Category:    "));header.add(categories);
         header.add(new JLabel("Amount:      "));header.add(amounts);
@@ -34,8 +40,10 @@ public class MyFrame extends JFrame {
         JButton reverser = getReverseButton();
         header.add(button);
         header.add(reverser);
+        this.add(eastTextSummary, BorderLayout.EAST); // TODO: Just get the label there, getsummary should work :)
         this.add(header, BorderLayout.NORTH);
         this.add(table, BorderLayout.CENTER);
+
     }
 
     private JButton getAddJButton() {
@@ -48,6 +56,7 @@ public class MyFrame extends JFrame {
                 table.setValueAt(list.get(lcv).category(),    lcv, 0);
                 table.setValueAt(list.get(lcv).amount(),      lcv, 1);
                 table.setValueAt(list.get(lcv).description(), lcv, 2);
+                getSummary();
             }
         });
         return button;
@@ -74,6 +83,15 @@ public class MyFrame extends JFrame {
                 table.setValueAt(list.get(lcv).description(), lcv, 2);
             }});
         return button;
+    }
+
+    public void getSummary() {
+        for   (int lcv = 0; lcv < list.size(); lcv++) {
+            map.put(list.get(lcv).category(), map.get(list.get(lcv).category())+list.get(lcv).amount());
+        }
+        for  (Map.Entry<String, Integer> entry : map.entrySet()) {
+            eastTextSummary.setText("Category: " + entry.getKey()+ " Amount: " + entry.getValue());
+        }
     }
 
 }
