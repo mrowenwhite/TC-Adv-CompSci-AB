@@ -8,12 +8,14 @@ import javax.swing.table.DefaultTableModel;
 
 public class MyFrame extends JFrame {
     static JLabel eastTextSummary;
+    static JPanel summaryBox;
     JPanel header;
     JTable table;
     ArrayList<Transaction> list;
-    JTextField amounts;
-    JComboBox<String> categories, descriptions;
+    JTextField amounts, descriptions;
+    JComboBox<String> categories;
     static Map<String, Integer> map;
+
 
     MyFrame(int len, int wid) {
         this.setSize(wid, len);
@@ -21,14 +23,17 @@ public class MyFrame extends JFrame {
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.lightGray);
+
         list             = new ArrayList<>();
         map              = new HashMap<>();
         header           = new JPanel();
         table            = new JTable(new DefaultTableModel(3, 0));
+        summaryBox       = new JPanel();
         eastTextSummary  = new JLabel();
+        eastTextSummary.setSize(20, 20);
         amounts          = MakeAmountBox();
         categories       = MakeComboBox(new String[] {"Option 1", "Option 2", "Option 3", "Option 4"});
-        descriptions     = MakeComboBox(new String[] {"Option 1", "Option 2", "Option 3", "Option 4"});
+        descriptions     = MakeAmountBox();
 
 
         header.add(new JLabel("Category:    "));header.add(categories);
@@ -40,7 +45,8 @@ public class MyFrame extends JFrame {
         JButton reverser = getReverseButton();
         header.add(button);
         header.add(reverser);
-        this.add(eastTextSummary, BorderLayout.EAST); // TODO: Just get the label there, getsummary should work :)
+        summaryBox.add(eastTextSummary);
+        this.add(summaryBox, BorderLayout.EAST);
         this.add(header, BorderLayout.NORTH);
         this.add(table, BorderLayout.CENTER);
 
@@ -49,15 +55,17 @@ public class MyFrame extends JFrame {
     private JButton getAddJButton() {
         JButton button = new JButton("Add Transaction");
         button.addActionListener(e ->{
-            Transaction t = new Transaction((String)categories.getSelectedItem(), Integer.parseInt(amounts.getText()), (String)descriptions.getSelectedItem());
+            Transaction t = new Transaction((String)categories.getSelectedItem(), Integer.parseInt(amounts.getText()),descriptions.getText());
             list.add(t);
+            map.put(t.category(),map.getOrDefault(t.category(),0) + t.amount());
             ((DefaultTableModel) table.getModel()).addRow(new Object[] {});
             for  (int lcv = 0; lcv < list.size(); lcv++) {
                 table.setValueAt(list.get(lcv).category(),    lcv, 0);
                 table.setValueAt(list.get(lcv).amount(),      lcv, 1);
                 table.setValueAt(list.get(lcv).description(), lcv, 2);
-                getSummary();
+
             }
+            getSummary();
         });
         return button;
     }
@@ -86,12 +94,11 @@ public class MyFrame extends JFrame {
     }
 
     public void getSummary() {
-        for   (int lcv = 0; lcv < list.size(); lcv++) {
-            map.put(list.get(lcv).category(), map.get(list.get(lcv).category())+list.get(lcv).amount());
-        }
+        String out = "";
         for  (Map.Entry<String, Integer> entry : map.entrySet()) {
-            eastTextSummary.setText("Category: " + entry.getKey()+ " Amount: " + entry.getValue());
+           out += entry.getKey() + ": " + entry.getValue() + "\n";
         }
+        eastTextSummary.setText(out);
     }
 
 }
