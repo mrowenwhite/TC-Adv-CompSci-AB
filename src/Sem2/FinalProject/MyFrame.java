@@ -94,10 +94,11 @@ public class MyFrame extends JFrame {
     }
 
     public void getSummary() {
-        String out = "";
+        String out = "<html>";
         for  (Map.Entry<String, Integer> entry : map.entrySet()) {
-           out += entry.getKey() + ": " + entry.getValue() + "\n";
+           out += entry.getKey() + ": " + entry.getValue() + "<br>";
         }
+        out += "</html>"; // just done, test
         eastTextSummary.setText(out);
     }
 
