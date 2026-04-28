@@ -3,6 +3,7 @@ package Sem2.FinalProject;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,14 +33,14 @@ public class MyFrame extends JFrame {
         eastTextSummary  = new JLabel();
         eastTextSummary.setSize(20, 20);
         amounts          = MakeAmountBox();
-        categories       = MakeComboBox(new String[] {"Option 1", "Option 2", "Option 3", "Option 4"});
+        categories       = MakeComboBox(new String[] {"Food", "Rent", "Entertainment", "Transportation"});
         descriptions     = MakeAmountBox();
 
 
         header.add(new JLabel("Category:    "));header.add(categories);
         header.add(new JLabel("Amount:      "));header.add(amounts);
         header.add(new JLabel("Description: "));header.add(descriptions);
-        table.setModel(new DefaultTableModel(2, 3));
+        table.setModel(new DefaultTableModel(0, 3));
 
         JButton button = getAddJButton();
         JButton reverser = getReverseButton();
@@ -50,6 +51,8 @@ public class MyFrame extends JFrame {
         this.add(header, BorderLayout.NORTH);
         this.add(table, BorderLayout.CENTER);
 
+        this.revalidate();
+
     }
 
     private JButton getAddJButton() {
@@ -58,13 +61,7 @@ public class MyFrame extends JFrame {
             Transaction t = new Transaction((String)categories.getSelectedItem(), Integer.parseInt(amounts.getText()),descriptions.getText());
             list.add(t);
             map.put(t.category(),map.getOrDefault(t.category(),0) + t.amount());
-            ((DefaultTableModel) table.getModel()).addRow(new Object[] {});
-            for  (int lcv = 0; lcv < list.size(); lcv++) {
-                table.setValueAt(list.get(lcv).category(),    lcv, 0);
-                table.setValueAt(list.get(lcv).amount(),      lcv, 1);
-                table.setValueAt(list.get(lcv).description(), lcv, 2);
-
-            }
+            ((DefaultTableModel)table.getModel()).addRow(new Object[]{t.category(),t.amount(),t.description()});
             getSummary();
         });
         return button;
@@ -94,12 +91,17 @@ public class MyFrame extends JFrame {
     }
 
     public void getSummary() {
-        String out = "<html>";
-        for  (Map.Entry<String, Integer> entry : map.entrySet()) {
-           out += entry.getKey() + ": " + entry.getValue() + "<br>";
-        }
-        out += "</html>"; // just done, test
-        eastTextSummary.setText(out);
+        String highestExpenseCategory = map.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse(null);
+        int totalBalance = map.values().stream().mapToInt(i -> i).sum();
+        eastTextSummary.setText((
+                "<html>Number of Transactions: " +list.size() +
+                "<br>Highest Expense Category: " + highestExpenseCategory +
+                "<br>Total Balance: "            + totalBalance +
+                "<br><br>Food: $"                + map.getOrDefault("Food", 0) +
+                "<br>Rent: $"                    + map.getOrDefault("Rent", 0) +
+                "<br>Entertainment: $"           + map.getOrDefault("Entertainment", 0) +
+                "<br>Transportation: $"          + map.getOrDefault("Transportation", 0) +
+                "</html>"
+        ));
     }
-
 }
