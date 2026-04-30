@@ -1,9 +1,14 @@
 package Sem2.FinalProject;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.*;
-import java.util.stream.Collectors;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,16 +21,50 @@ public class MyFrame extends JFrame {
     JTextField amounts, descriptions;
     JComboBox<String> categories;
     static Map<String, Integer> map;
+    File file;
+    FileWriter writer;
 
 
-    MyFrame(int len, int wid) {
+    MyFrame(int len, int wid) throws IOException {
+
+
+
+
+
+
+        //TS is so broken bruh
+
+
+
+
         this.setSize(wid, len);
         this.setVisible(true);
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.lightGray);
-
+        writer           = new FileWriter("C:\\Users\\white.o3\\IdeaProjects\\TC CompSci\\src\\Sem2\\FinalProject\\Transactions.csv");
+        file             = new File("C:\\Users\\white.o3\\IdeaProjects\\TC CompSci\\src\\Sem2\\FinalProject\\Transactions.csv");
         list             = new ArrayList<>();
+
+        try (Scanner fileReader = new Scanner(file)) {
+
+
+            fileReader.next();
+            String fileText = "";
+            while (fileReader.hasNext()) {
+                fileText += fileReader.next();
+            }
+            String[] stuff = fileText.split(",");
+            for (int i = 0; i < stuff.length - 3; i += 3) {
+                list.add(new Transaction(stuff[i], Integer.parseInt(stuff[i + 1]), stuff[i + 2]));
+            }
+        }
+        catch (Exception e) {
+            System.out.println("poop");
+        }
+
+
+
         map              = new HashMap<>();
         header           = new JPanel();
         table            = new JTable(new DefaultTableModel(3, 0));
@@ -53,6 +92,8 @@ public class MyFrame extends JFrame {
 
         this.revalidate();
 
+
+
     }
 
     private JButton getAddJButton() {
@@ -61,8 +102,18 @@ public class MyFrame extends JFrame {
             Transaction t = new Transaction((String)categories.getSelectedItem(), Integer.parseInt(amounts.getText()),descriptions.getText());
             list.add(t);
             map.put(t.category(),map.getOrDefault(t.category(),0) + t.amount());
-            ((DefaultTableModel)table.getModel()).addRow(new Object[]{t.category(),t.amount(),t.description()});
+            ((DefaultTableModel)table.getModel()).addRow(new Object[]{t.category(),t.amount(),(t.description().isEmpty()?"N/A":t.description())});
             getSummary();
+            try (Scanner fileReader = new Scanner(file)) {
+                String fileText = "";
+                while (fileReader.hasNext()) {
+                    fileText += fileReader.next();
+                }
+                Files.writeString(file.toPath(), fileText + t, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            } catch (IOException ex) {
+                System.out.println("pee");
+            }
+
         });
         return button;
     }
