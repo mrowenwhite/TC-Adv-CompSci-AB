@@ -17,23 +17,14 @@ public class MyFrame extends JFrame {
     static JPanel summaryBox;
     JPanel header;
     JTable table;
-    ArrayList<Transaction> list;
+    public static ArrayList<Transaction> list;
     JTextField amounts, descriptions;
     JComboBox<String> categories;
     static Map<String, Integer> map;
-    File file;
-    FileWriter writer;
+    FinalProgFileHandler file;
 
 
     MyFrame(int len, int wid) throws IOException {
-
-
-
-
-
-
-        //TS is so broken bruh
-
 
 
 
@@ -42,29 +33,8 @@ public class MyFrame extends JFrame {
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.lightGray);
-        writer           = new FileWriter("C:\\Users\\white.o3\\IdeaProjects\\TC CompSci\\src\\Sem2\\FinalProject\\Transactions.csv");
-        file             = new File("C:\\Users\\white.o3\\IdeaProjects\\TC CompSci\\src\\Sem2\\FinalProject\\Transactions.csv");
-        list             = new ArrayList<>();
-
-        try (Scanner fileReader = new Scanner(file)) {
-
-
-            fileReader.next();
-            String fileText = "";
-            while (fileReader.hasNext()) {
-                fileText += fileReader.next();
-            }
-            String[] stuff = fileText.split(",");
-            for (int i = 0; i < stuff.length - 3; i += 3) {
-                list.add(new Transaction(stuff[i], Integer.parseInt(stuff[i + 1]), stuff[i + 2]));
-            }
-        }
-        catch (Exception e) {
-            System.out.println("poop");
-        }
-
-
-
+        file             = new FinalProgFileHandler("src/Sem2/FinalProject/Transactions.csv");
+        list             = file.getList();
         map              = new HashMap<>();
         header           = new JPanel();
         table            = new JTable(new DefaultTableModel(3, 0));
@@ -98,20 +68,21 @@ public class MyFrame extends JFrame {
 
     private JButton getAddJButton() {
         JButton button = new JButton("Add Transaction");
+        for (Transaction t: list) {
+            map.put(t.category(),map.getOrDefault(t.category(),0) + t.amount());
+            ((DefaultTableModel)table.getModel()).addRow(new Object[]{t.category(),t.amount(),(t.description().isEmpty()?"N/A":t.description())});
+        }
+
         button.addActionListener(e ->{
             Transaction t = new Transaction((String)categories.getSelectedItem(), Integer.parseInt(amounts.getText()),descriptions.getText());
             list.add(t);
             map.put(t.category(),map.getOrDefault(t.category(),0) + t.amount());
-            ((DefaultTableModel)table.getModel()).addRow(new Object[]{t.category(),t.amount(),(t.description().isEmpty()?"N/A":t.description())});
+            ((DefaultTableModel)table.getModel()).addRow(new Object[]{t.category(),t.amount(),t.description()});
             getSummary();
-            try (Scanner fileReader = new Scanner(file)) {
-                String fileText = "";
-                while (fileReader.hasNext()) {
-                    fileText += fileReader.next();
-                }
-                Files.writeString(file.toPath(), fileText + t, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            try {
+                file.add(t);
             } catch (IOException ex) {
-                System.out.println("pee");
+                System.out.println("Add Transaction Error");
             }
 
         });
