@@ -5,17 +5,23 @@ import java.awt.*;
 import java.util.*;
 
 public class GameFrame extends JFrame {
-    public static MyButton lastCLicked;
+    private static MyButton lastCLicked;
 
     public GameFrame() {
         this.setTitle("Memory Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 1200); // TBD
+        this.setSize(842, 480);
         this.setVisible(true);
+        this.setLayout(new GridLayout(4, 4, 20, 20));
         MyButton[][] board = getBoard();
-
-
-
+        int count = 0;
+        for  (MyButton[] row : board) {
+            for(MyButton temp : row) {
+                this.add(temp);
+                count++;
+                System.out.println(temp.getColor() + " " + count);
+            }
+        }
         this.revalidate();
     }
 
@@ -23,15 +29,19 @@ public class GameFrame extends JFrame {
         MyButton[] buttons = new MyButton[16];
         MyButton[][] board = new MyButton[4][4];
         final Color[] COLORS = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PINK, Color.MAGENTA, Color.WHITE};
-        for (int i = 0; i < buttons.length-1; i+=2) {
+        for (int i = 0; i < buttons.length; i+=2) {
             buttons[i]   = new MyButton(buttons[i+1], COLORS[i/2]);
             buttons[i+1] = new MyButton(buttons[i],   COLORS[i/2]);
         }
         Collections.shuffle(Arrays.asList(buttons));
-        board[0] = Arrays.copyOfRange(buttons, 0, 3);
-        board[1] = Arrays.copyOfRange(buttons, 4, 7);
-        board[2] = Arrays.copyOfRange(buttons, 8, 11);
-        board[3] = Arrays.copyOfRange(buttons, 12, 15);
+
+        int cnt = 0;
+        for (int lcv = 0; lcv < 4; lcv++) {
+            for (int lcv2 = 0; lcv2 < 4; lcv2++) {
+                board[lcv][lcv2] = buttons[cnt];
+                cnt++;
+            }
+        }
         return  board;
     }
 
@@ -40,15 +50,16 @@ public class GameFrame extends JFrame {
         private final MyButton pair;
         private final Color color;
 
+
         public MyButton(MyButton pair, Color color) {
             this.pair = pair;
             this.color = color;
             this.setSize(20, 20);
-            this.setBackground(color);
+            this.setBackground(Color.DARK_GRAY);
 
             this.addActionListener(e -> {
                 lastCLicked = this;
-                if (lastCLicked == pair) {
+                if (lastCLicked.isPair(this)) {
                     this.ShowAndDisablePair();
                 }
             });
@@ -63,6 +74,10 @@ public class GameFrame extends JFrame {
 
         public MyButton getPair() {return this.pair;}
         public Color getColor() {return this.color;}
+
+        public boolean isPair(MyButton other) {
+            return other.getColor().equals(this.color);
+        }
 
 
     }
