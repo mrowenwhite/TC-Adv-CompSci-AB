@@ -7,6 +7,10 @@ import java.util.*;
 public class GameFrame extends JFrame {
     private static MyButton lastCLicked;
 
+    private static Map<MyButton, MyButton> map = new HashMap<>();
+
+
+
     public GameFrame() {
         this.setTitle("Memory Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,8 +34,10 @@ public class GameFrame extends JFrame {
         MyButton[][] board = new MyButton[4][4];
         final Color[] COLORS = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PINK, Color.MAGENTA, Color.WHITE};
         for (int i = 0; i < buttons.length; i+=2) {
-            buttons[i]   = new MyButton(buttons[i+1], COLORS[i/2]);
-            buttons[i+1] = new MyButton(buttons[i],   COLORS[i/2]);
+            buttons[i]   = new MyButton( COLORS[i/2]);
+            buttons[i+1] = new MyButton(COLORS[i/2]);
+            map.put(buttons[i], buttons[i+1]);
+            map.put(buttons[i+1], buttons[i]);
         }
         Collections.shuffle(Arrays.asList(buttons));
 
@@ -47,32 +53,29 @@ public class GameFrame extends JFrame {
 
 
     private static class MyButton extends JButton {
-        private final MyButton pair;
         private final Color color;
 
-
-        public MyButton(MyButton pair, Color color) {
-            this.pair = pair;
+        public MyButton(Color color) {
             this.color = color;
             this.setSize(20, 20);
             this.setBackground(Color.DARK_GRAY);
 
             this.addActionListener(e -> {
-                lastCLicked = this;
-                if (lastCLicked.isPair(this)) {
+                if (map.get(this).isPair(lastCLicked)) {
                     this.ShowAndDisablePair();
                 }
+                lastCLicked = this;
             });
         }
 
         public void ShowAndDisablePair() {
             this.setBackground(color);
-            pair.setBackground(color);
+            map.get(this).setBackground(color);
             this.setEnabled(false);
-            pair.setEnabled(false);
+            map.get(this).setEnabled(false);
         }
 
-        public MyButton getPair() {return this.pair;}
+        public MyButton getPair() {return map.get(this);}
         public Color getColor() {return this.color;}
 
         public boolean isPair(MyButton other) {
