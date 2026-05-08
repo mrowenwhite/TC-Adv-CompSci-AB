@@ -1,11 +1,13 @@
 package Sem2.MemoryGame;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.util.*;
 
 public class GameFrame extends JFrame {
     private static MyButton lastCLicked;
+    private static Timer timer;
 
     private static Map<MyButton, MyButton> map = new HashMap<>();
 
@@ -39,6 +41,7 @@ public class GameFrame extends JFrame {
             map.put(buttons[i], buttons[i+1]);
             map.put(buttons[i+1], buttons[i]);
         }
+        lastCLicked = buttons[0];
         Collections.shuffle(Arrays.asList(buttons));
 
         int cnt = 0;
@@ -54,32 +57,70 @@ public class GameFrame extends JFrame {
 
     private static class MyButton extends JButton {
         private final Color color;
+        public boolean isFinihsed;
 
         public MyButton(Color color) {
+            isFinihsed = false;
             this.color = color;
             this.setSize(20, 20);
             this.setBackground(Color.DARK_GRAY);
+            timer = new Timer(750, event -> DisableButtons());
 
             this.addActionListener(e -> {
-                if (map.get(this).isPair(lastCLicked)) {
-                    this.ShowAndDisablePair();
+
+                if (lastCLicked == null) {
+                    lastCLicked =  new MyButton(Color.cyan);
+                }
+                this.setBackground(color);
+                // if pair --> ShowAndDisablePair
+                if (this.isPair(lastCLicked)) {ShowAndDisablePair();}
+                else {
+                    DisableButtons();
+
+                    timer.start();
+                    timer.setRepeats(false);
+                    ResetPair();
+
                 }
                 lastCLicked = this;
+                EnableButtons();
             });
+        }
+
+        public boolean isFinsihed() {
+            return isFinihsed;
         }
 
         public void ShowAndDisablePair() {
             this.setBackground(color);
             map.get(this).setBackground(color);
+            this.isFinihsed = true;
+            map.get(this).isFinihsed = true;
             this.setEnabled(false);
             map.get(this).setEnabled(false);
         }
+        public void ResetPair() {
+            this.setBackground(Color.DARK_GRAY);
+            map.get(this).setBackground(Color.DARK_GRAY);
 
-        public MyButton getPair() {return map.get(this);}
+        }
+
         public Color getColor() {return this.color;}
 
         public boolean isPair(MyButton other) {
-            return other.getColor().equals(this.color);
+            return map.get(this) == other;
+        }
+        public void DisableButtons() {
+            for (MyButton temp : map.values()) {
+                temp.setEnabled(false);
+            }
+        }
+        public void EnableButtons() {
+            for (MyButton temp : map.values()) {
+                if (!temp.isFinihsed) {
+                    temp.setEnabled(true);
+                }
+            }
         }
 
 
