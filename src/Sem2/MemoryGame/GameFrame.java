@@ -3,11 +3,14 @@ package Sem2.MemoryGame;
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameFrame extends JFrame {
     private static MyButton lastCLicked;
     private static Timer timer;
+    private static MyButton[][] board;
 
     private static Map<MyButton, MyButton> map = new HashMap<>();
 
@@ -19,7 +22,7 @@ public class GameFrame extends JFrame {
         this.setSize(842, 480);
         this.setVisible(true);
         this.setLayout(new GridLayout(4, 4, 20, 20));
-        MyButton[][] board = getBoard();
+        board = getBoard();
         int count = 0;
         for  (MyButton[] row : board) {
             for(MyButton temp : row) {
@@ -64,32 +67,26 @@ public class GameFrame extends JFrame {
             this.color = color;
             this.setSize(20, 20);
             this.setBackground(Color.DARK_GRAY);
-            timer = new Timer(750, event -> DisableButtons());
+            timer = new Timer(750, event -> {HideTiles();});
+            timer.setRepeats(false);
 
             this.addActionListener(e -> {
-
-                if (lastCLicked == null) {
-                    lastCLicked =  new MyButton(Color.cyan);
-                }
                 this.setBackground(color);
-                // if pair --> ShowAndDisablePair
-                if (this.isPair(lastCLicked)) {ShowAndDisablePair();}
-                else {
-                    DisableButtons();
 
+                if (lastCLicked == null)
+                    lastCLicked =  new MyButton(Color.cyan); // instantiated without a pairing
+
+                if (map.get(this)==lastCLicked) {ShowAndDisablePair();}
+                else {
                     timer.start();
-                    timer.setRepeats(false);
+                    while (timer.isRunning())continue; // do nothing until timer ends
                     ResetPair();
 
                 }
                 lastCLicked = this;
-                EnableButtons();
             });
         }
 
-        public boolean isFinsihed() {
-            return isFinihsed;
-        }
 
         public void ShowAndDisablePair() {
             this.setBackground(color);
@@ -100,29 +97,26 @@ public class GameFrame extends JFrame {
             map.get(this).setEnabled(false);
         }
         public void ResetPair() {
-            this.setBackground(Color.DARK_GRAY);
-            map.get(this).setBackground(Color.DARK_GRAY);
+            if (!(isFinihsed||map.get(this).isFinihsed)) {
+                this.setBackground(Color.DARK_GRAY);
+                map.get(this).setBackground(Color.DARK_GRAY);
+            }
+
 
         }
 
         public Color getColor() {return this.color;}
 
-        public boolean isPair(MyButton other) {
-            return map.get(this) == other;
-        }
-        public void DisableButtons() {
-            for (MyButton temp : map.values()) {
-                temp.setEnabled(false);
-            }
-        }
-        public void EnableButtons() {
-            for (MyButton temp : map.values()) {
-                if (!temp.isFinihsed) {
-                    temp.setEnabled(true);
+    }
+
+    public static void HideTiles() {
+        for  (MyButton[] row : board) {
+            for (MyButton temp : row) {
+                if (!temp.isFinihsed){
+                    temp.setBackground(Color.DARK_GRAY);
+                    temp.setEnabled(false);
                 }
             }
         }
-
-
     }
 }
