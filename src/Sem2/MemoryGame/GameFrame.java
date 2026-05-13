@@ -58,7 +58,7 @@ public class GameFrame extends JFrame {
             this.color = color;
             this.setSize(20, 20);
             this.setBackground(Color.DARK_GRAY);
-            timer = new Timer(750, event -> {HideTiles();});
+            timer = new Timer(750, event -> {doNothing();});
             timer.setRepeats(false);
 
             this.addActionListener(e -> {
@@ -67,54 +67,32 @@ public class GameFrame extends JFrame {
                 if (lastCLicked == null)
                     lastCLicked =  new MyButton(Color.cyan); // instantiated without a pairing
 
-                if (map.get(this)==lastCLicked) {ShowAndDisablePair();}
+                if (map.get(this)==lastCLicked) {
+                    this.isFinished = true;
+                    this.setEnabled(false);
+                    map.get(this).setBackground(color);
+                    map.get(this).isFinished = true;
+                    map.get(this).setEnabled(false);
+                }
+
                 else {
+                    this.setBackground(color);
                     timer.start();
-                    while (timer.isRunning())continue; // do nothing until timer ends
-                    EnableTiles();
-                    ResetPair();
-
-
+                    while (timer.isRunning())continue;
+                    timer.stop();
                 }
+
                 lastCLicked = this;
+
+
             });
-        }
 
-        public void EnableTiles() {
-            for (MyButton[] row:board) {
-                for (MyButton temp:row) {
-                    temp.setEnabled(false);
-                }
-            }
         }
-
-
-        public void ShowAndDisablePair() {
-            this.setBackground(color);
-            this.isFinished = true;
-            this.setEnabled(false);
-            map.get(this).setBackground(color);
-            map.get(this).isFinished = true;
-            map.get(this).setEnabled(false);
-        }
-        public void ResetPair() {
-            if (!(isFinished &&map.get(this).isFinished)) {
-                this.setBackground(Color.DARK_GRAY);
-                map.get(this).setBackground(Color.DARK_GRAY);
-            }
-        }
-        public Color getColor() {return this.color;}
-
     }
+    public static void doNothing() {return;}
 
-    public static void HideTiles() {
-        for  (MyButton[] row : board) {
-            for (MyButton temp : row) {
-                if (!temp.isFinished){
-                    temp.setBackground(Color.DARK_GRAY);
-                    temp.setEnabled(false);
-                }
-            }
-        }
+
+    public static void main(String[] args) {
+        new GameFrame();
     }
 }
