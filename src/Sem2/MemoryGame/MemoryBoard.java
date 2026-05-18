@@ -9,39 +9,61 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MemoryBoard extends JFrame {
+    static MemoryBoard memoryBoard;
     static Map<MyButton, MyButton> pairs = new HashMap<>();
-    static MyButton lastClicked = null;
-
+    static MyButton[][] Board;
+    static MyButton firstClicked;
+    static MyButton secondClicked;
+    static Timer timer = new Timer(750, e->HideTiles());
+    static int pairCount;
 
     public static class MyButton extends JButton {
-        static Timer timer = new Timer(750, e->HideTiles());
+
         public boolean isFinished;
+        Color color;
 
         public MyButton(Color color) {
+            this.color = color;
             timer.setRepeats(false);
             isFinished = false;
             this.setSize(20, 20);
             this.setBackground(Color.DARK_GRAY);
+            firstClicked = null;
+            secondClicked = null;
 
             this.addActionListener(e -> {
-                secondClicked=this;
                 this.setBackground(color);
-                if ((pairs.get(firstClicked) != null)&&(pairs.get(firstClicked)==this)) {
-                    this.setBackground(color);
-                    firstClicked.setBackground(color);
-                    isFinished = true;
-                    secondClicked.isFinished = true;
-
+                this.setOpaque(true);
+                this.revalidate();
+                this.repaint();
+                if (firstClicked == null) {
+                    firstClicked=this;
                 }
                 else {
-                    timer.start();
-                    while  (timer.isRunning())continue;
-                    timer.stop();
+                    secondClicked=this;
+                    if (firstClicked.getColor() == secondClicked.getColor()&&(!(firstClicked==secondClicked))) {
+                        firstClicked.setBackground(color);
+                        secondClicked.setBackground(color);
+                        firstClicked.isFinished=true;
+                        secondClicked.isFinished=true;
+                        pairCount--;
+                        if (pairCount <= 0) {
+                            JOptionPane.showMessageDialog(memoryBoard, "All Pairs Matched");
+                            memoryBoard.dispose();
+                        }
+                    }
+                    else {
+                        timer.start();
+                    }
+                    firstClicked=null;
+                    secondClicked=null;
                 }
+
             });
         }
-
-        public static void HideTiles() {} //TODO
+        public Color getColor() {
+            return this.color;
+        }
     }
     public MemoryBoard() {
         this.setTitle("Memory Game");
@@ -49,6 +71,7 @@ public class MemoryBoard extends JFrame {
         this.setSize(842, 480);
         this.setVisible(true);
         this.setLayout(new GridLayout(4, 4, 20, 20));
+        memoryBoard = this;
 
 
         MyButton[][] board = getBoard();
@@ -56,7 +79,8 @@ public class MemoryBoard extends JFrame {
         this.revalidate();
     }
 
-     public MyButton[][] getBoard() {
+     public static MyButton[][] getBoard() {
+        pairCount = 8;
          ArrayList<MyButton> list   = new ArrayList<>();
          MyButton[][]        board  = new MyButton[4][4];
          final Color[]       COLORS = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PINK, Color.MAGENTA, Color.WHITE};
@@ -73,7 +97,12 @@ public class MemoryBoard extends JFrame {
          for (int lcv = 0; lcv < 4; lcv++)
              for (int lcv2 = 0; lcv2 < 4; lcv2++)
                  board[lcv][lcv2] = list.get(cnt++);
+         Board = board;
          return board;
+     }
+
+     public static void HideTiles() {
+        for (MyButton[] row: Board )for(MyButton temp:row)temp.setBackground((temp.isFinished)?temp.getColor():Color.DARK_GRAY);
      }
 
     public static void main(String[] args) {
