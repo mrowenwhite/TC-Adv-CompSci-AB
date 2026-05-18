@@ -16,6 +16,7 @@ public class MemoryBoard extends JFrame {
     static MyButton secondClicked;
     static Timer timer = new Timer(750, e->HideTiles());
     static int pairCount;
+    static boolean isPlaying;
 
     public static class MyButton extends JButton {
 
@@ -31,34 +32,40 @@ public class MemoryBoard extends JFrame {
             firstClicked = null;
             secondClicked = null;
 
+
             this.addActionListener(e -> {
-                this.setBackground(color);
                 this.setOpaque(true);
                 this.revalidate();
                 this.repaint();
-                if (firstClicked == null) {
-                    firstClicked=this;
-                }
-                else {
-                    secondClicked=this;
-                    if (firstClicked.getColor() == secondClicked.getColor()&&(!(firstClicked==secondClicked))) {
-                        firstClicked.setBackground(color);
-                        secondClicked.setBackground(color);
-                        firstClicked.isFinished=true;
-                        secondClicked.isFinished=true;
-                        pairCount--;
-                        if (pairCount <= 0) {
-                            JOptionPane.showMessageDialog(memoryBoard, "All Pairs Matched");
-                            memoryBoard.dispose();
-                        }
+                if (isPlaying) {
+                    this.setBackground(color);
+                    if (firstClicked == null) {
+                        firstClicked=this;
                     }
                     else {
-                        timer.start();
+                        secondClicked=this;
+                        DisableTiles();
+                        if (firstClicked.getColor() == secondClicked.getColor()&&(!(firstClicked==secondClicked))) {
+                            firstClicked.setBackground(color);
+                            secondClicked.setBackground(color);
+                            firstClicked.isFinished=true;
+                            secondClicked.isFinished=true;
+                            pairCount--;
+                            if (pairCount <= 0) {
+                                JOptionPane.showMessageDialog(memoryBoard, "All Pairs Matched");
+                                memoryBoard.dispose();
+                            }
+                        }
+                        else {
+                            timer.start();
+                        }
+                        firstClicked=null;
+                        secondClicked=null;
                     }
-                    firstClicked=null;
-                    secondClicked=null;
                 }
-
+                else {
+                    JOptionPane.showMessageDialog(memoryBoard, "Press Play");
+                }
             });
         }
         public Color getColor() {
@@ -70,12 +77,17 @@ public class MemoryBoard extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(842, 480);
         this.setVisible(true);
-        this.setLayout(new GridLayout(4, 4, 20, 20));
+        this.setLayout(new GridLayout(5, 4, 20, 20));
         memoryBoard = this;
+        isPlaying = false;
 
 
         MyButton[][] board = getBoard();
         for (MyButton[]row: board)for(MyButton temp:row)this.add(temp);
+        JButton play = new JButton("Play");
+
+        play.addActionListener(e -> {isPlaying=true;});
+        this.add(play, CENTER_ALIGNMENT);
         this.revalidate();
     }
 
@@ -102,7 +114,16 @@ public class MemoryBoard extends JFrame {
      }
 
      public static void HideTiles() {
-        for (MyButton[] row: Board )for(MyButton temp:row)temp.setBackground((temp.isFinished)?temp.getColor():Color.DARK_GRAY);
+        for (MyButton[] row: Board )for(MyButton temp:row){
+            temp.setBackground((temp.isFinished)?temp.getColor():Color.DARK_GRAY);
+            temp.setEnabled(true);
+        }
+
+     }
+     public static void DisableTiles() {
+        for  (MyButton[] row: Board )for(MyButton temp:row){
+            temp.setEnabled(false);
+        }
      }
 
     public static void main(String[] args) {
