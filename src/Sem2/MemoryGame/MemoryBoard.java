@@ -1,6 +1,5 @@
 package Sem2.MemoryGame;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,14 +13,19 @@ public class MemoryBoard extends JFrame {
     static MyButton[][] Board;
     static MyButton firstClicked;
     static MyButton secondClicked;
-    static Timer timer = new Timer(750, e->HideTiles());
+    static Timer timer = new Timer(750, e-> {
+        for (MyButton[] row: Board )for(MyButton temp:row){
+            temp.setBackground((temp.isFinished)?temp.color:Color.DARK_GRAY);
+            temp.setEnabled(true);
+        }
+    });
     static int pairCount;
     static boolean isPlaying;
 
     public static class MyButton extends JButton {
 
         public boolean isFinished;
-        Color color;
+        public Color color;
 
         public MyButton(Color color) {
             this.color = color;
@@ -29,50 +33,34 @@ public class MemoryBoard extends JFrame {
             isFinished = false;
             this.setSize(20, 20);
             this.setBackground(Color.DARK_GRAY);
-            firstClicked = null;
-            secondClicked = null;
-
+            firstClicked = null;secondClicked = null;
 
             this.addActionListener(e -> {
-                this.setOpaque(true);
-                this.revalidate();
-                this.repaint();
+                this.setOpaque(true);this.revalidate();this.repaint();
                 if (isPlaying) {
                     this.setBackground(color);
-                    if (firstClicked == null) {
-                        firstClicked=this;
-                    }
+                    if (firstClicked == null) {firstClicked=this;}
                     else {
                         secondClicked=this;
-                        DisableTiles();
-                        if (firstClicked.getColor() == secondClicked.getColor()&&(!(firstClicked==secondClicked))) {
-                            firstClicked.setBackground(color);
-                            secondClicked.setBackground(color);
-                            firstClicked.isFinished=true;
-                            secondClicked.isFinished=true;
+                        SetTilesEnabled(false);
+                        if (firstClicked.color == secondClicked.color&&(!(firstClicked==secondClicked))) {
+                            firstClicked.isFinished=true;firstClicked.setBackground(color);
+                            secondClicked.isFinished=true;secondClicked.setBackground(color);
                             pairCount--;
-                            if (pairCount <= 0) {
-                                JOptionPane.showMessageDialog(memoryBoard, "All Pairs Matched");
-                                memoryBoard.dispose();
-                            }
+                            if (pairCount <= 0) {JOptionPane.showMessageDialog(memoryBoard, "All Pairs Matched");memoryBoard.dispose();}
+                            SetTilesEnabled(true);
                         }
-                        else {
-                            timer.start();
-                        }
+                        else {timer.start();}
                         firstClicked=null;
                         secondClicked=null;
                     }
                 }
-                else {
-                    JOptionPane.showMessageDialog(memoryBoard, "Press Play");
-                }
+                else {JOptionPane.showMessageDialog(memoryBoard, "Press Play");}
             });
-        }
-        public Color getColor() {
-            return this.color;
         }
     }
     public MemoryBoard() {
+        pairCount = 8;
         this.setTitle("Memory Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(842, 480);
@@ -80,23 +68,17 @@ public class MemoryBoard extends JFrame {
         this.setLayout(new GridLayout(5, 4, 20, 20));
         memoryBoard = this;
         isPlaying = false;
-
-
-        MyButton[][] board = getBoard();
-        for (MyButton[]row: board)for(MyButton temp:row)this.add(temp);
+        Board = getBoard();
+        for (MyButton[]row: Board)for(MyButton temp:row)this.add(temp);
         JButton play = new JButton("Play");
-
         play.addActionListener(e -> {isPlaying=true;});
         this.add(play, CENTER_ALIGNMENT);
         this.revalidate();
     }
-
      public static MyButton[][] getBoard() {
-        pairCount = 8;
          ArrayList<MyButton> list   = new ArrayList<>();
          MyButton[][]        board  = new MyButton[4][4];
          final Color[]       COLORS = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PINK, Color.MAGENTA, Color.WHITE};
-
          for (Color color : COLORS) {
              list.add(new MyButton(color));
              list.add(new MyButton(color));
@@ -104,30 +86,10 @@ public class MemoryBoard extends JFrame {
              pairs.put(list.get(list.size()-2), list.getLast());
          }
          Collections.shuffle(list);
-
          int cnt = 0;
-         for (int lcv = 0; lcv < 4; lcv++)
-             for (int lcv2 = 0; lcv2 < 4; lcv2++)
-                 board[lcv][lcv2] = list.get(cnt++);
-         Board = board;
+         for (int lcv=0;lcv<4;lcv++)for(int lcv2=0;lcv2<4;lcv2++)board[lcv][lcv2]=list.get(cnt++);
          return board;
      }
-
-     public static void HideTiles() {
-        for (MyButton[] row: Board )for(MyButton temp:row){
-            temp.setBackground((temp.isFinished)?temp.getColor():Color.DARK_GRAY);
-            temp.setEnabled(true);
-        }
-
-     }
-     public static void DisableTiles() {
-        for  (MyButton[] row: Board )for(MyButton temp:row){
-            temp.setEnabled(false);
-        }
-     }
-
-    public static void main(String[] args) {
-        new MemoryBoard();
-    }
-
+    public static void SetTilesEnabled(boolean b){for (MyButton[] row: Board )for(MyButton temp:row) temp.setEnabled(b);}
+    public static void main(String[] args) {new MemoryBoard();}
 }
