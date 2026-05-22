@@ -103,22 +103,27 @@ public class MemoryBoard extends JFrame {
 
     public static class GameTimer extends JLabel {
         private int TimeLeft;
-        Timer timer = new Timer(1000, e-> {
-            TimeLeft--;
-            this.setText("TimeLeft: "+TimeLeft/60 + ":" + TimeLeft%60);
-            if (TimeLeft <= 0) {
-                isPlaying = false;
-                JOptionPane.showMessageDialog(memoryBoard, "You Lose!");
-                memoryBoard.dispose();
-                return;
-            }
-        });
+        Timer timer;
         GameTimer(int time) {
             this.setText("TimeLeft: "+TimeLeft/60 + ":" + TimeLeft%60);
             TimeLeft = time;
+            timer = new Timer(1000, e-> {
+                TimeLeft--;
+                this.setText("TimeLeft: "+TimeLeft/60 + ":" + TimeLeft%60);
+                if (TimeLeft <= 0) {
+                    isPlaying = false;
+                    JOptionPane.showMessageDialog(memoryBoard, "You Lose!");
+                    timer.stop();
+                    memoryBoard.dispose();
+                    return;
+                }
+            });
         }
         public void start() {
             timer.start();
+        }
+        public void stop() {
+            timer.stop();
         }
 
     }
