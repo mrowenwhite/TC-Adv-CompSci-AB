@@ -1,78 +1,55 @@
 package Sem2.ConnectionsGame;
 
 import javax.swing.*;
-import javax.xml.catalog.Catalog;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class GameFrame extends JFrame {
-    static JToggleButton[][] GameBoard =  new JToggleButton[4][4];
 
     public GameFrame() throws FileNotFoundException {
         GameBuilder();
         this.setTitle("Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800, 600);
+        this.setSize(1920/2, 1080/2);
         this.setVisible(true);
         this.revalidate();
+        this.repaint();
     }
-
-
-
 
 
     public void GameBuilder() throws FileNotFoundException {
         Scanner file = new Scanner(new File("C:\\Users\\white.o3\\IdeaProjects\\TC CompSci\\src\\Sem2\\ConnectionsGame\\ConnectionsFile.txt"));
-        Map<String, Stack<String>> map = new HashMap<>();
-        Random random = new Random();
-
-
+        Map<String, String[]> map = new HashMap<>();
         ArrayList<String> items = new ArrayList<>();
+        final Color[] colors = {Color.red, Color.yellow, Color.green, Color.blue};
+
         while (file.hasNextLine()) {
             String line = file.nextLine();
-            if (line.charAt(line.length()-1)==':') {
-                String category = line;
-                map.put(category, map.getOrDefault(category, new Stack<>()));
-                line = file.nextLine();
-                while (!(line.charAt(line.length()-1)==':')) {
-                    map.get(category).add(line);
-                    line = file.nextLine();
-                }
+            if (line.charAt(line.length() - 1) == ':') {
+                map.put(line.substring(0, line.length() - 1), new String[]{String.valueOf(items.add(file.nextLine())), String.valueOf(items.add(file.nextLine())), String.valueOf(items.add(file.nextLine())), String.valueOf(items.add(file.nextLine()))});
+                //TODO Colors
             }
-        } //Populate Categories From File // populates map
-        ArrayList<String> TempCats = new ArrayList<>(map.keySet());
-        Collections.shuffle(TempCats);
-        String[] categories = new String[4];
-        for (int i = 0; i < 4; i++) {
-            categories[i] = TempCats.get(i); // INDEX OUT OF BOUNDS
         }
-         // populate categories for gameBoard, no repeats
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                items.add(map.get(categories[row]).pop());
-            }
-        } // create Items for gameBoard based on categories
-        Collections.shuffle(Arrays.asList(items));
-        int Ilcv = -1;
-        for (int r = 0; r < 4; r++) {
-            for (int c = 0; c < 4; c++) {
-                GameBoard[r][c] = new JToggleButton(items.get(Ilcv++));
-            }
-        } // populate GameBoard based on items
         this.setLayout(new GridLayout(4,4));
-        for (String item : items) this.add(new MyButton(item));
-
+        Collections.shuffle(items);
+        for (int lcv = 0; lcv < items.size(); lcv++) {
+            this.add(new MyButton(items.get(lcv),(lcv%4==0)?Color.red:(lcv%4==1)?Color.green:(lcv%4==2)?Color.blue:Color.yellow));
+        }
     }
 
 
     private static class MyButton extends JToggleButton {
+        private final Color color;
 
-        public MyButton(String text) {
+        public MyButton(String text, Color color) {
             super(text);
+            this.color = color;
+            this.addActionListener(e -> {
+                //temp
+                this.setBackground(this.color);
+            });
         }
     }
 }
