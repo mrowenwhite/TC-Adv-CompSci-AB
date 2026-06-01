@@ -4,9 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 
 public class GameFrame extends JFrame {
+    static GameFrame gameFrame;
+    private static ArrayList<MyButton> clicked;
+    static Map<String, String[]> map = new HashMap<>();
 
     public GameFrame() throws FileNotFoundException {
         GameBuilder();
@@ -21,33 +25,54 @@ public class GameFrame extends JFrame {
 
     public void GameBuilder() throws FileNotFoundException {
         Scanner file = new Scanner(new File("C:\\Users\\white.o3\\IdeaProjects\\TC CompSci\\src\\Sem2\\ConnectionsGame\\ConnectionsFile.txt"));
-        Map<String, String[]> map = new HashMap<>();
+
         ArrayList<String> items = new ArrayList<>();
+        ArrayList<MyButton> buttons = new ArrayList<>();
         final Color[] colors = {Color.red, Color.yellow, Color.green, Color.blue};
 
         while (file.hasNextLine()) {
             String line = file.nextLine();
             if (line.charAt(line.length() - 1) == ':') {
                 map.put(line.substring(0, line.length() - 1), new String[]{String.valueOf(items.add(file.nextLine())), String.valueOf(items.add(file.nextLine())), String.valueOf(items.add(file.nextLine())), String.valueOf(items.add(file.nextLine()))});
-                //TODO Colors
             }
         }
-        this.setLayout(new GridLayout(4,4));
-        Collections.shuffle(items);
-        for (int lcv = 0; lcv < items.size(); lcv++) {
-            this.add(new MyButton(items.get(lcv),(lcv%4==0)?Color.red:(lcv%4==1)?Color.green:(lcv%4==2)?Color.blue:Color.yellow));
+        int cnt = 0;
+        for (String[] stuff : map.values()) {
+            for (String str : stuff)
+                buttons.add(new MyButton(str, colors[cnt]));
+            cnt++;
         }
+
+        gameFrame.setLayout(new GridLayout(4,4));
+        Collections.shuffle(items);
+        Collections.shuffle(buttons);
+        for (MyButton button : buttons) {
+            gameFrame.add(button);
+        }
+        gameFrame = this;
     }
 
 
     private static class MyButton extends JToggleButton {
         private final Color color;
+        public String text;
 
-        public MyButton(String text, Color color) {
-            super(text);
+        public MyButton(String txt, Color color) {
+            super(txt);
+            text = txt;
             this.color = color;
             this.addActionListener(e -> {
-                //temp
+                clicked.add(this);
+                for (MyButton button : clicked) {
+                    if (!button.color.equals(this.color)) {
+                        JOptionPane.showMessageDialog(gameFrame, "Try Again");
+                        return;
+                    }
+                }
+                String[] cat = clicked.stream().map(MyButton::getText).toArray(String[]::new);
+                ArrayList<MyButton> buttons = new ArrayList<>();
+                for ()
+
                 this.setBackground(this.color);
             });
         }
