@@ -9,10 +9,11 @@ import java.util.List;
 
 public class GameFrame extends JFrame {
     static GameFrame gameFrame;
-    private static ArrayList<MyButton> clicked;
+    private static final ArrayList<MyButton> clicked =  new ArrayList<>();
     static Map<String, String[]> map = new HashMap<>();
 
     public GameFrame() throws FileNotFoundException {
+        gameFrame = this;
         GameBuilder();
         this.setTitle("Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,14 +27,13 @@ public class GameFrame extends JFrame {
     public void GameBuilder() throws FileNotFoundException {
         Scanner file = new Scanner(new File("C:\\Users\\white.o3\\IdeaProjects\\TC CompSci\\src\\Sem2\\ConnectionsGame\\ConnectionsFile.txt"));
 
-        ArrayList<String> items = new ArrayList<>();
         ArrayList<MyButton> buttons = new ArrayList<>();
         final Color[] colors = {Color.red, Color.yellow, Color.green, Color.blue};
 
         while (file.hasNextLine()) {
             String line = file.nextLine();
             if (line.charAt(line.length() - 1) == ':') {
-                map.put(line.substring(0, line.length() - 1), new String[]{String.valueOf(items.add(file.nextLine())), String.valueOf(items.add(file.nextLine())), String.valueOf(items.add(file.nextLine())), String.valueOf(items.add(file.nextLine()))});
+                map.put(line.substring(0, line.length() - 1), new String[]{file.nextLine(), file.nextLine(), file.nextLine(), file.nextLine()});
             }
         }
         int cnt = 0;
@@ -44,7 +44,6 @@ public class GameFrame extends JFrame {
         }
 
         gameFrame.setLayout(new GridLayout(4,4));
-        Collections.shuffle(items);
         Collections.shuffle(buttons);
         for (MyButton button : buttons) {
             gameFrame.add(button);
@@ -59,21 +58,46 @@ public class GameFrame extends JFrame {
 
         public MyButton(String txt, Color color) {
             super(txt);
-            text = txt;
+            this.text = txt;
             this.color = color;
             this.addActionListener(e -> {
+                if (this.isSelected()) {
+                    clicked.remove(this);
+                }
+                else {
+                    clicked.add(this);
+                }
                 clicked.add(this);
+                if (clicked.size()<=3)return;
                 for (MyButton button : clicked) {
-                    if (!button.color.equals(this.color)) {
-                        JOptionPane.showMessageDialog(gameFrame, "Try Again");
-                        return;
-                    }
+                        if (!button.color.equals(this.color)) {
+                            JOptionPane.showMessageDialog(gameFrame, "Try Again");
+                            clicked.clear();
+                            for  (MyButton button2 : clicked) {
+                                button2.setSelected(false);
+                            }
+                            return;
+                        }
                 }
                 String[] cat = clicked.stream().map(MyButton::getText).toArray(String[]::new);
                 ArrayList<MyButton> buttons = new ArrayList<>();
-                for ()
+                for (MyButton b : clicked) {
+                    if (!(Arrays.stream(cat)).toList().contains(b))
+                        buttons.add(b);
+                }
+                gameFrame.setLayout(new GridLayout(4,4));
+                gameFrame.removeAll();
 
-                this.setBackground(this.color);
+                for (String s : cat) {
+                    MyButton button = new MyButton(s, color);
+                    gameFrame.add(button);
+                    button.setBackground(color);
+                }
+                Collections.shuffle(buttons);
+                for (MyButton button : buttons) {
+                    gameFrame.add(button);
+                }
+                clicked.clear();
             });
         }
     }
