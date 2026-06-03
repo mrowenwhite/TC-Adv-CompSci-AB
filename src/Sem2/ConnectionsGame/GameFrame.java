@@ -5,10 +5,11 @@ import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class GameFrame extends JFrame {
-    static GameFrame gameFrame;
+    protected static GameFrame gameFrame;
     private static final ArrayList<MyButton> clicked =  new ArrayList<>();
     static Map<String, String[]> map = new HashMap<>();
 
@@ -50,6 +51,29 @@ public class GameFrame extends JFrame {
         }
         gameFrame = this;
     }
+    public void solve(MyButton[] category) {
+        for (String str : map.keySet()) {
+            for  (int lcv = 0; lcv < category.length; lcv++) {
+                if (Arrays.stream(map.get(str)).toList().contains(category[lcv])) {
+                    MyButton[] cat = clicked.stream().map(MyButton::getText).sorted().toArray(MyButton[]::new);
+                    ArrayList<MyButton> buttons = clicked.stream().filter(b ->(!(Arrays.stream(cat)).toList().contains(b))).collect(Collectors.toCollection(ArrayList::new));
+                    for (String s : Arrays.stream(category).map(MyButton::getText).toList()) {
+                        MyButton b = new MyButton(s, buttons.getFirst().color);
+                        this.add(b);
+                        b.setBackground(buttons.getFirst().color);
+                        b.setEnabled(false);
+                    }
+                    Collections.shuffle(buttons);
+                    for (MyButton button : buttons) {
+                        this.add(button);
+                    }
+                    clicked.clear();
+                    System.out.println("test");
+                }
+            }
+
+        }
+    }
 
 
     private static class MyButton extends JToggleButton {
@@ -72,32 +96,34 @@ public class GameFrame extends JFrame {
                 for (MyButton button : clicked) {
                         if (!button.color.equals(this.color)) {
                             JOptionPane.showMessageDialog(gameFrame, "Try Again");
-                            clicked.clear();
                             for  (MyButton button2 : clicked) {
                                 button2.setSelected(false);
                             }
+                            clicked.clear();
                             return;
                         }
                 }
-                String[] cat = clicked.stream().map(MyButton::getText).toArray(String[]::new);
-                ArrayList<MyButton> buttons = new ArrayList<>();
-                for (MyButton b : clicked) {
-                    if (!(Arrays.stream(cat)).toList().contains(b))
-                        buttons.add(b);
-                }
+
                 gameFrame.setLayout(new GridLayout(4,4));
                 gameFrame.removeAll();
-
+                gameFrame.solve(clicked.stream().map(MyButton::getText).sorted().toArray(MyButton[]::new));
+                gameFrame.revalidate();
+                gameFrame.repaint();
+                /*
                 for (String s : cat) {
-                    MyButton button = new MyButton(s, color);
-                    gameFrame.add(button);
-                    button.setBackground(color);
+                    MyButton b = new MyButton(s, color);
+                    gameFrame.add(b);
+                    b.setBackground(color);
+                    b.setEnabled(false);
                 }
                 Collections.shuffle(buttons);
                 for (MyButton button : buttons) {
                     gameFrame.add(button);
                 }
                 clicked.clear();
+                System.out.println("test");
+
+                 */
             });
         }
     }
