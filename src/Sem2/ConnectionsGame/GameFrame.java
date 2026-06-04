@@ -1,5 +1,7 @@
 package Sem2.ConnectionsGame;
 
+import jdk.jfr.Category;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -12,6 +14,7 @@ public class GameFrame extends JFrame {
     protected static GameFrame gameFrame;
     private static final ArrayList<MyButton> clicked =  new ArrayList<>();
     static Map<String, String[]> map = new HashMap<>();
+    static ArrayList<MyButton> buttons = new ArrayList<>();
 
     public GameFrame() throws FileNotFoundException {
         gameFrame = this;
@@ -28,7 +31,7 @@ public class GameFrame extends JFrame {
     public void GameBuilder() throws FileNotFoundException {
         Scanner file = new Scanner(new File("C:\\Users\\white.o3\\IdeaProjects\\TC CompSci\\src\\Sem2\\ConnectionsGame\\ConnectionsFile.txt"));
 
-        ArrayList<MyButton> buttons = new ArrayList<>();
+
         final Color[] colors = {Color.red, Color.yellow, Color.green, Color.blue};
 
         while (file.hasNextLine()) {
@@ -52,11 +55,19 @@ public class GameFrame extends JFrame {
         gameFrame = this;
     }
     public void solve(MyButton[] category) {
+        System.out.println("test1");
+        MyButton[] cat = new MyButton[category.length];
+        String[] catStr = new String[category.length];
+        for  (int i = 0; i < category.length; i++) {
+            cat[i] = category[i];
+            catStr[i] = cat[i].getText();
+        }
+
+        buttons = buttons.stream().filter(b ->(!(Arrays.stream(cat)).toList().contains(b))).collect(Collectors.toCollection(ArrayList::new));
         for (String str : map.keySet()) {
             for  (int lcv = 0; lcv < category.length; lcv++) {
-                if (Arrays.stream(map.get(str)).toList().contains(category[lcv])) {
-                    MyButton[] cat = clicked.stream().map(MyButton::getText).sorted().toArray(MyButton[]::new);
-                    ArrayList<MyButton> buttons = clicked.stream().filter(b ->(!(Arrays.stream(cat)).toList().contains(b))).collect(Collectors.toCollection(ArrayList::new));
+                if (Arrays.stream(category).toList().contains(clicked.getFirst())) {
+                    System.out.println("test2");
                     for (String s : Arrays.stream(category).map(MyButton::getText).toList()) {
                         MyButton b = new MyButton(s, buttons.getFirst().color);
                         this.add(b);
@@ -68,8 +79,9 @@ public class GameFrame extends JFrame {
                         this.add(button);
                     }
                     clicked.clear();
-                    System.out.println("test");
+
                 }
+                System.out.println("test3");
             }
 
         }
@@ -106,9 +118,10 @@ public class GameFrame extends JFrame {
 
                 gameFrame.setLayout(new GridLayout(4,4));
                 gameFrame.removeAll();
-                gameFrame.solve(clicked.stream().map(MyButton::getText).sorted().toArray(MyButton[]::new));
+                gameFrame.solve(clicked.toArray(new MyButton[4]));
                 gameFrame.revalidate();
                 gameFrame.repaint();
+
                 /*
                 for (String s : cat) {
                     MyButton b = new MyButton(s, color);
