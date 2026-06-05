@@ -56,12 +56,7 @@ public class GameFrame extends JFrame {
     }
     public void solve(MyButton[] category) {
         System.out.println("test1");
-        MyButton[] cat = new MyButton[category.length];
-        String[] catStr = new String[category.length];
-        for  (int i = 0; i < category.length; i++) {
-            cat[i] = category[i];
-            catStr[i] = cat[i].getText();
-        }
+        MyButton[] cat = MyButton.getSorted(category);
 
         buttons = buttons.stream().filter(b ->(!(Arrays.stream(cat)).toList().contains(b))).collect(Collectors.toCollection(ArrayList::new));
         for (String str : map.keySet()) {
@@ -79,6 +74,7 @@ public class GameFrame extends JFrame {
                         this.add(button);
                     }
                     clicked.clear();
+                    return;
 
                 }
                 System.out.println("test3");
@@ -88,7 +84,7 @@ public class GameFrame extends JFrame {
     }
 
 
-    private static class MyButton extends JToggleButton {
+    public static class MyButton extends JToggleButton {
         private final Color color;
         public String text;
 
@@ -103,17 +99,18 @@ public class GameFrame extends JFrame {
                 else {
                     clicked.add(this);
                 }
-                clicked.add(this);
                 if (clicked.size()<=3)return;
                 for (MyButton button : clicked) {
-                        if (!button.color.equals(this.color)) {
-                            JOptionPane.showMessageDialog(gameFrame, "Try Again");
-                            for  (MyButton button2 : clicked) {
-                                button2.setSelected(false);
-                            }
-                            clicked.clear();
-                            return;
+                    if (!button.color.equals(this.color)) {
+                        JOptionPane.showMessageDialog(gameFrame, "Try Again");
+                        for  (MyButton button2 : clicked) {
+                            button2.setSelected(false);
                         }
+
+                        clicked.clear();
+
+                        return;
+                    }
                 }
 
                 gameFrame.setLayout(new GridLayout(4,4));
@@ -139,5 +136,10 @@ public class GameFrame extends JFrame {
                  */
             });
         }
+
+        public static MyButton[] getSorted(MyButton[] A) {
+            return Arrays.stream(A).sorted(Comparator.comparing(MyButton::getText)).toArray(MyButton[]::new);
+        }
+
     }
 }
