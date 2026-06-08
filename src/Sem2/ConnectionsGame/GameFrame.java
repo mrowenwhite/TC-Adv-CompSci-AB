@@ -1,12 +1,8 @@
 package Sem2.ConnectionsGame;
-
-import jdk.jfr.Category;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -65,13 +61,13 @@ public class GameFrame extends JFrame {
                     System.out.println("test2");
                     for (String s : Arrays.stream(category).map(MyButton::getText).toList()) {
                         MyButton b = new MyButton(s, buttons.getFirst().color);
-                        this.add(b);
+                        gameFrame.add(b);
                         b.setBackground(buttons.getFirst().color);
                         b.setEnabled(false);
                     }
                     Collections.shuffle(buttons);
                     for (MyButton button : buttons) {
-                        this.add(button);
+                        gameFrame.add(button);
                     }
                     clicked.clear();
                     return;
@@ -99,7 +95,7 @@ public class GameFrame extends JFrame {
                 else {
                     clicked.add(this);
                 }
-                if (clicked.size()<=3)return;
+                if (clicked.size()<4)return;
                 for (MyButton button : clicked) {
                     if (!button.color.equals(this.color)) {
                         JOptionPane.showMessageDialog(gameFrame, "Try Again");
@@ -119,21 +115,6 @@ public class GameFrame extends JFrame {
                 gameFrame.revalidate();
                 gameFrame.repaint();
 
-                /*
-                for (String s : cat) {
-                    MyButton b = new MyButton(s, color);
-                    gameFrame.add(b);
-                    b.setBackground(color);
-                    b.setEnabled(false);
-                }
-                Collections.shuffle(buttons);
-                for (MyButton button : buttons) {
-                    gameFrame.add(button);
-                }
-                clicked.clear();
-                System.out.println("test");
-
-                 */
             });
         }
 
